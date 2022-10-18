@@ -8,10 +8,10 @@ The production runs of this code were run on a high-performance computing cluste
 
 - The Anaconda distribution can be downloaded from this site: [https://www.anaconda.com/products/distribution](https://www.anaconda.com/products/distribution)
 - Two environment files are located in this folder that can be used to create an Anaconda environment for this code.  One is for using the computer's CPU and the other the GPU if the computer is equipped with a cuda-enabled graphical processing unit.
-  - keras-cpu_tf14.yml
-  - keras-gpu_tf14.yml
+  - `keras-cpu_tf14.yml`
+  - `keras-gpu_tf14.yml`
 - To install the environment:
   - First, install a base Anaconda environment from the URL above
-  - Next, open Anaconda Command Prompt (as Administrator)
-  - Finally, execute this command in the Anaconda Command Prompt
-    - conda env create -f *path_to_file*/
+  - Next, open an Anaconda Command Prompt (as Administrator)
+  - Finally, execute this command in the Anaconda Command Prompt with the environment of your choice:
+    - `conda env create -f _path_to_file_/keras-gpu_tf14.yml`
