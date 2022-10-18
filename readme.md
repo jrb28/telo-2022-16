@@ -14,4 +14,4 @@ The production runs of this code were run on a high-performance computing cluste
   - First, install a base Anaconda environment from the URL above
   - Next, open an Anaconda Command Prompt (as Administrator)
   - Finally, execute this command in the Anaconda Command Prompt with the environment of your choice:
-    - <pre><code>conda env create -f <it>path_to_file</it>/keras-gpu_tf14.yml</code></pre>
+    - <pre><code>conda env create -f <em>path_to_file</em>/keras-gpu_tf14.yml</code></pre>
