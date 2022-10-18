@@ -17,3 +17,9 @@ The production runs of this code were run on a high-performance computing cluste
     - <pre><code>conda env create -f <em>path_to_file</em>/keras-gpu_tf14.yml</code></pre>
 
 # Executing the Code
+
+## MNIST
+
+
+
+## CIFAR-10
