@@ -52,12 +52,20 @@ The input arguments for these command line programs are as follows, in this orde
 - `num_gen`: an integer representing the number of generations to be executed
 - `scen_name`: A scenario name to be associated with this set of parameters.
 
+Notes on these parameters:
+- The `folder_in` specified is consistent with the file folder structure in this repo and it permits the appropriate input files to be found.  Do not use a different argument.
+- The `folder_out` specified above is also consistent with the folder structure in this repo, although a different output path could be specified if desired.
+- The `scen_name` argument is a label to be associated with the particular parameters being used.  All results are put in the folder at this path `out_folder/scen_name`.
+
 To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command (with some example input arguments):
 ><pre><code>python <em>file_path_to_code</em>/ga_mnist_adv_worker_rank-sel.py 0 L2 rank-linear rand 0.9 FF.json FF.h5 xxx xxx 1000 1.0 xxx  2000 0_L2_rl_rand_FF_1000_2000<\code></pre>
 A similar command can be used with `ga_mnist_adv_worker_rank-sel_cnn.py` although the neural network files, `CNN.json` and `CNN.h5`, would be referenced in the input arguments.
 
 Output from this code includes the following files in the designated output folder where _i_ is the `mnist_id`:
-- xxxx
+- <pre><code><em>i</em>_elite.csv</code></pre>: xxx
+- <pre><code><em>i</em>_elite_parents.csv</code></pre>: xxx
+- <pre><code><em>i</em>_img.npy</code></pre>: xxx
+- <pre><code><em>i</em>_pop_stat</code></pre>: xxx
 
 
 ### Using the Controller Program
@@ -72,19 +80,22 @@ The controller program filename is `ga_control_rank_sel.py` and it executes mult
 - `num_proc`: number of processors to be used in parallel mode
 - `file_model`: either `FF.json` or `CNN.json`
 - `file_weights`: either `FF.h5` or `CNN.h5`
-- `folder_in`: 
-- `folder_out`:
+- `folder_in`: ../input
+- `folder_out`: ../output
 - `filepath_code`: the filepath (and filename) for the pyrrhon executable worker file `ga_mnist_adv_worker_rank-sel.py` or `ga_mnist_adv_worker_rank-sel_cnn.py`
 - `pop_size`: an integer representing the population size
 - `prob_mut_genome`:
 - `pixel_mut_per_phenotype`:
 - `num_gen`: an integer representing the number of generations to be executed
 
+Notes on these parameters:
+- See notes above for teh worker program regarding the arguments `folder_in` and `folder_out`.
+- The controller program creates the `scen_name` argument that is used by the worker program as a folder name for the output.  It is a combination of the GA parameters being used.  
+
 To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command (with some example input arguments):
 ><pre><code>python <em>file_path_to_code</em>/ga_control_rank_sel.py 0 19 L2 rank-linear rand 0.9 10 FF.json FF.h5 xxx xxx xxx 1000 1.0 xxx  2000</code></pre>
 
-Output from this code includes the following items:
-- xxxx
+The same output is generated with the controller as would be generated with the worker program used to create a single adversarial example. 
 
 
 
