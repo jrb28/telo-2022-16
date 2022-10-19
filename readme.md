@@ -44,8 +44,8 @@ The input arguments for these command line programs are as follows, in this orde
 - `factor_rank_nonlinear`: a floating-point value greater than 0.0 but less than 1.0.  This is a required argument even if rank-nonlinear selection is not being used.
 - `file_model`: either `FF.json` or `CNN.json` (Note: the corresponding weights file must be used.)
 - `file_weights`: either `FF.h5` or `CNN.h5` (Note: the corresponding model file must be used.)
-- `out_folder`: 
-- `in_folder`:
+- `out_folder`: ../input
+- `in_folder`: ../output
 - `pop_size`: an integer representing the population size
 - `prob_mut_genome`:
 - `prob_mut_pixel`:
@@ -62,7 +62,7 @@ To execute from the command line, open a command  prompt that recognizes the pat
 A similar command can be used with `ga_mnist_adv_worker_rank-sel_cnn.py` although the neural network files, `CNN.json` and `CNN.h5`, would be referenced in the input arguments.
 
 Output from this code includes the following files in the designated output folder where _i_ is the `mnist_id`:
-- <pre><code><em>i</em>_elite.csv</code></pre>: xxx
+- <pre><code><em>i</em>_elite.csv</code></pre> -  xxx
 - <pre><code><em>i</em>_elite_parents.csv</code></pre>: xxx
 - <pre><code><em>i</em>_img.npy</code></pre>: xxx
 - <pre><code><em>i</em>_pop_stat</code></pre>: xxx
