@@ -62,6 +62,9 @@ To execute from the command line, open a command  prompt that recognizes the pat
 A similar command can be used with `ga_mnist_adv_worker_rank-sel_cnn.py` although the neural network files, `CNN.json` and `CNN.h5`, would be referenced in the input arguments.
 
 Output from this code includes the following files in the designated output folder where _i_ is the `mnist_id`:
+| Filename | Contents |
+|<pre><code><em>i</em>_elite.csv</code></pre>| xxx|
+
 - <pre><code><em>i</em>_elite.csv</code></pre> -  xxx
 - <pre><code><em>i</em>_elite_parents.csv</code></pre>: xxx
 - <pre><code><em>i</em>_img.npy</code></pre>: xxx
