@@ -27,6 +27,12 @@ Adversarial examples can be generated in two modes:
 
 ### Using the Worker Program
 
+Two worker programs exist, one for Feedforward Neural Networks  (FFs) and a separate program for Convolutional Neural Networks (CNNs):
+- FF: `ga_mnist_adv_worker_rank-sel.py`
+- CNN: `ga_mnist_adv_worker_rank-sel_cnn.py`
+
+
+
 
 ### Using the Controller Program
 
