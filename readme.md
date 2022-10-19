@@ -18,6 +18,8 @@ The production runs of this code were run on a high-performance computing cluste
 
 # Executing the Code
 
+Code is provided in this repository for generating adversarial examples for images from the MNIST[^mnist] and CIFAR-10[^cifar] data sets as described in the two subsequent subsections.
+
 ## MNIST
 
 Adversarial examples can be generated in two modes: 
@@ -143,3 +145,5 @@ Output from this code includes the following items:
 
 
 
+[^mnist] See xxx and xxx
+[^cifar] See xxx
