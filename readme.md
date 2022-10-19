@@ -106,7 +106,7 @@ Adversarial examples can be generated in two modes:
 - A "worker" program can be executed from the command line to generate one adversarial for a specified CIFAR-10 image.
 - A "controller" program can be run from the command line to execute the "worker" program multiple times for a sequence of MNIST images.  The controller program uses multiprocessing.
 
-The `code` and `input` folders are located in the `CIFAR` folder in this root folder.
+The `code` and `data` folders are located in the `CIFAR` folder in this root folder.  The `data` folder contains input files.
 
 ### Using the Worker Program
 
