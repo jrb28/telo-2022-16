@@ -103,7 +103,7 @@ The worker program is entitled: `ga_cifar_worker.py`.  It can be run from the co
 
 The input arguments for these command line programs are as follows, in this order:
 - `cifar_id`: an integer from 0 to 59,999
-- `model_file`: 
+- `model_file`: `model2.h5`
 - `out_folder`: 
 - `fit_type`: one of `L1, L1-lin, L2, L2-lin, Linf, Linf-lin`
 - `select_type`: one of `proportionate, rank-linear, rank-nonlinear`
@@ -124,14 +124,14 @@ Output from this code includes the following items:
 ### Using the Controller Program
 
 The controller program filename is `ga_cifar_controlr.py` and it executes multiple worker files in parallel.  Its input arguments are:
-- `start_id`: an integer from 0 to 59,999 representing the first MNIST iamge for which an adversarial example is generated
-- `end_id`: an integer from 0 to 59,999 representing the last MNIST iamge for which an adversarial example is generated
+- `start_id`: an integer from 0 to 59,999 representing the first CIFAR-10 iamge for which an adversarial example is generated
+- `end_id`: an integer from 0 to 59,999 representing the last CIFAR-10 iamge for which an adversarial example is generated
 - `fit_type`: one of `L1, L1-lin, L2, L2-lin, Linf, Linf-lin, mad-recip, mad-linear`
 - `select_type`: one of `proportionate, rank-linear, rank-nonlinear`
 - `rand_type`: either `rand` or `mad`
 - `factor_rank_nonlinear`: a floating-point value greater than 0.0 but less than 1.0.  This is a required argument even if rank-nonlinear selection is not being used.
 - `num_proc`: number of processors to be used in parallel mode
-- `file_model`: either `FF.json` or `CNN.json`
+- `file_model`: `model2.h5`
 - `folder`: 
 - `gpu_mode`:
 - `mp_mode`: the filepath (and filename) for the pyrrhon executable worker file `ga_mnist_adv_worker_rank-sel.py` or `ga_mnist_adv_worker_rank-sel_cnn.py`
