@@ -48,8 +48,8 @@ The input arguments for these command line programs are as follows, in this orde
 - `num_gen`: an integer representing the number of generations to be executed
 - `scen_name`: A scenario name to eb associated with this set of parameters.
 
-To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command:
-
+To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command (with some example input arguments):
+>`python <em>file_path_to code</em>/ga_mnist_adv_worker_rank-sel.py
 
 
 ### Using the Controller Program
