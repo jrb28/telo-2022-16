@@ -58,7 +58,7 @@ Output from this code includes the follosing items:
 
 ### Using the Controller Program
 
-The controller program executes multiple worker files in parallel.  Its input arguments are:
+The controller program filename is `ga_control_rank_sel.py` and it executes multiple worker files in parallel.  Its input arguments are:
 - `start_id`: an integer from 0 to 59,999 representing the first MNIST iamge for which an adversarial example is generated
 - `end_id`: an integer from 0 to 59,999 representing the last MNIST iamge for which an adversarial example is generated
 - `fit_type`: one of `L1, L1-lin, L2, L2-lin, Linf, Linf-lin, mad-recip, mad-linear`
@@ -75,6 +75,12 @@ The controller program executes multiple worker files in parallel.  Its input ar
 - `prob_mut_genome`:
 - `pixel_mut_per_phenotype`:
 - `num_gen`: an integer representing the number of generations to be executed
+
+To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command (with some example input arguments):
+><pre><code>python <em>file_path_to_code</em>/ga_control_rank_sel.py 0 19 L2 rank-linear rand 0.9 10 FF.json FF.h5 xxx xxx xxx 1000 1.0 xxx  2000<\code></pre>
+
+Output from this code includes the follosing items:
+- xxxx
 
 
 
