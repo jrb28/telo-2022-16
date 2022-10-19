@@ -5,6 +5,12 @@ Created on Wed Jan 22 13:08:12 2020
 @author: jrbrad
 """
 
+'''
+Copyright 2022 by Anonymous Authors
+This code is protected by the Academic Free license Version 3.0
+See LICENSE.md in the repository root folder for the terms of this license
+'''
+
 #import matplotlib.pyplot as plt
 import random
 #import glob

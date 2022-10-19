@@ -5,6 +5,12 @@ Created on Wed Mar  4 09:31:22 2020
 @author: jrbrad
 """
 
+'''
+Copyright 2022 by Anonymous Authors
+This code is protected by the Academic Free license Version 3.0
+See LICENSE.md in the repository root folder for the terms of this license
+'''
+
 import subprocess
 import multiprocessing
 #import pathlib
