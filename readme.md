@@ -42,8 +42,8 @@ The input arguments for these command line programs are as follows, in this orde
 - `select_type`: one of `proportionate, rank-linear, rank-nonlinear`
 - `rand_type`: either `rand` or `mad`
 - `factor_rank_nonlinear`: a floating-point value greater than 0.0 but less than 1.0.  This is a required argument even if rank-nonlinear selection is not being used.
-- `file_model`: either `FF.json` or `CNN.json`
-- `file_weights`: either `FF.h5` or `CNN.h5`
+- `file_model`: either `FF.json` or `CNN.json` (Note: the corresponding weights file must be used.)
+- `file_weights`: either `FF.h5` or `CNN.h5` (Note: the corresponding model file must be used.)
 - `out_folder`: 
 - `in_folder`:
 - `pop_size`: an integer representing the population size
