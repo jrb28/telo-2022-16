@@ -58,6 +58,21 @@ Output from this code includes the follosing items:
 
 ### Using the Controller Program
 
+The controller program executes multiple worker files in parallel.  Its input arguments are:
+- `mnist_id`: an integer from 0 to 59,999
+- `fit_type`: one of `xx`
+- `select_type`: one of `xx`
+- `rand_type`: either `rand` or `mad`
+- `factor_rank_nonlinear`: a floating-point value greater than 0.0 but less than 1.0.  This is a required argument even if rank-nonlinear selection is not being used.
+- `file_model`: 
+- `file_weights`:
+- `out_folder`
+- `in_folder`:
+- `pop_size`: an integer representing the population size
+- `prob_mut_genome`:
+- `prob_mut_pixel`:
+- `num_gen`: an integer representing the number of generations to be executed
+- `scen_name`: A scenario name to eb associated with this set of parameters.
 
 
 
