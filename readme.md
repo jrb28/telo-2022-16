@@ -50,6 +50,7 @@ The input arguments for these command line programs are as follows, in this orde
 
 To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command (with some example input arguments):
 >`python `_`file_path_to code`_`/ga_mnist_adv_worker_rank-sel.py 0 L2 rank-linear rand 0.9 FF.json FF.h5 xxx xxx 1000 1.0 xxx  2000 0_L2_rl_rand_FF_1000_2000`
+><pre><code>python <em>file_path_to code</em>/ga_mnist_adv_worker_rank-sel.py 0 L2 rank-linear rand 0.9 FF.json FF.h5 xxx xxx 1000 1.0 xxx  2000 0_L2_rl_rand_FF_1000_2000<\code></pre>
 
 
 ### Using the Controller Program
