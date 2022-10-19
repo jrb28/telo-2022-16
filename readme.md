@@ -30,7 +30,9 @@ Adversarial examples can be generated in two modes:
 Two worker programs exist, one for Feedforward Neural Networks  (FFs) and a separate program for Convolutional Neural Networks (CNNs):
 - FF: `ga_mnist_adv_worker_rank-sel.py`
 - CNN: `ga_mnist_adv_worker_rank-sel_cnn.py`
+The programs can be run from the command line or by specifying command line arguments in an IDE, for example, in Anaconda Spyder by choosing ``Run>Configuration per file`` and then specifying input arguments in the ``Command line options`` dialog field.
 
+The input parameters for these command line programs are as follows, in this order:
 
 
 
