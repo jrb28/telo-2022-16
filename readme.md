@@ -145,5 +145,5 @@ Output from this code includes the following items:
 
 
 
-[^mnist] See xxx and xxx
-[^cifar] See xxx
+[^mnist]: See xxx and xxx
+[^cifar]: See xxx
