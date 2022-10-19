@@ -59,20 +59,22 @@ Output from this code includes the follosing items:
 ### Using the Controller Program
 
 The controller program executes multiple worker files in parallel.  Its input arguments are:
-- `mnist_id`: an integer from 0 to 59,999
+- `start_id`: an integer from 0 to 59,999 representing the first MNIST iamge for which an adversarial example is generated
+- `end_id`: an integer from 0 to 59,999 representing the last MNIST iamge for which an adversarial example is generated
 - `fit_type`: one of `L1, L1-lin, L2, L2-lin, Linf, Linf-lin, mad-recip, mad-linear`
 - `select_type`: one of `proportionate, rank-linear, rank-nonlinear`
 - `rand_type`: either `rand` or `mad`
 - `factor_rank_nonlinear`: a floating-point value greater than 0.0 but less than 1.0.  This is a required argument even if rank-nonlinear selection is not being used.
+- `num_proc`: number of processors to be used in parallel mode
 - `file_model`: either `FF.json`` or `CNN.json``
 - `file_weights`: either `FF.h5` or CNN.h5`
-- `out_folder`: 
-- `in_folder`:
+- `folder_in`: 
+- `folder_out`:
+- `filepath_code`: the filepath (and filename) for the pyrrhon executable worker file `ga_mnist_adv_worker_rank-sel.py` or `ga_mnist_adv_worker_rank-sel_cnn.py`
 - `pop_size`: an integer representing the population size
 - `prob_mut_genome`:
-- `prob_mut_pixel`:
+- `pixel_mut_per_phenotype`:
 - `num_gen`: an integer representing the number of generations to be executed
-- `scen_name`: A scenario name to be associated with this set of parameters.
 
 
 
