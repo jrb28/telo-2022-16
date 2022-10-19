@@ -20,6 +20,18 @@ The production runs of this code were run on a high-performance computing cluste
 
 ## MNIST
 
+Adversarial examples can be generated in two modes: 
+
+- A "worker" program can be executed from the command line to generate one adversarial for a specified MNIST image.
+- A "controller" program can be run from the command line to execute the "worker" program multiple times for a sequence of MNIST images.  The controller program uses multiprocessing.
+
+### Using the Worker Program
+
+
+### Using the Controller Program
+
+
+
 
 
 ## CIFAR-10
