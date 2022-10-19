@@ -65,7 +65,7 @@ Output from this code includes the following files in the designated output fold
 | Filename | Contents |
 |<pre><code><em>i</em>_elite.csv</code></pre>| xxx|
 
-- <pre><code><em>i</em>_elite.csv</code></pre> -  xxx
+- <code><em>i</em>_elite.csv</code> -  xxx
 - <pre><code><em>i</em>_elite_parents.csv</code></pre>: xxx
 - <pre><code><em>i</em>_img.npy</code></pre>: xxx
 - <pre><code><em>i</em>_pop_stat</code></pre>: xxx
