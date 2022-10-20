@@ -44,8 +44,8 @@ The input arguments for these command line programs are as follows, in this orde
 - `factor_rank_nonlinear`: a floating-point value greater than 0.0 but less than 1.0.  This is a required argument even if rank-nonlinear selection is not being used.
 - `file_model`: either `FF.json` or `CNN.json` (Note: the corresponding weights file must be used.)
 - `file_weights`: either `FF.h5` or `CNN.h5` (Note: the corresponding model file must be used.)
-- `out_folder`: ../input
-- `in_folder`: ../output
+- `out_folder`: ../output/
+- `in_folder`: ../input/
 - `pop_size`: an integer representing the population size
 - `prob_mut_genome`: probability that an image is mutated (0.7 in our experiments
 - `prob_mut_pixel`: the probability of any pixel being mutated, if an image is mutated (0.00255 in our experiments)
@@ -58,7 +58,7 @@ Notes on these parameters:
 - The `scen_name` argument is a label to be associated with the particular parameters being used.  All results are put in the folder at this path `out_folder/scen_name`.
 
 To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command (with some example input arguments):
-><pre><code>python <em>file_path_to_code</em>/ga_mnist_adv_worker_rank-sel.py 0 L2 rank-linear rand 0.9 FF.json FF.h5 xxx xxx 1000 1.0 xxx  2000 0_L2_rl_rand_FF_1000_2000<\code></pre>
+><pre><code>python <em>file_path_to_code</em>/ga_mnist_adv_worker_rank-sel.py 0 L2 rank-linear rand 0.9 FF.json FF.h5 ../output/ ../input/ 1000 1.0 2  2000 0_L2_rl_rand_FF_1000_2000<\code></pre>
 A similar command can be used with `ga_mnist_adv_worker_rank-sel_cnn.py` although the neural network files, `CNN.json` and `CNN.h5`, would be referenced in the input arguments.
 
 Output from this code includes the following files in the designated output folder where _i_ is the `mnist_id`:
@@ -81,8 +81,8 @@ The controller program filename is `ga_control_rank_sel.py` and it executes mult
 - `num_proc`: number of processors to be used in parallel mode (_Note: a value greater than one cannot be used with a GPU as GPUs do not support multiprocessing.  Using `num_proc` > 1 works only with multiple-core CPUs._)
 - `file_model`: either `FF.json` or `CNN.json`
 - `file_weights`: either `FF.h5` or `CNN.h5`
-- `folder_in`: ../input
-- `folder_out`: ../output
+- `folder_in`: ../input/
+- `folder_out`: ../output/
 - `filepath_code`: the filepath (and filename) for the python executable worker file.  If the folder structure of this repo is maintained, then use either `ga_mnist_adv_worker_rank-sel.py` or `ga_mnist_adv_worker_rank-sel_cnn.py` whichever is consistent with the `file_model` and `file_weights` arguments. 
 - `pop_size`: an integer representing the population size
 - `prob_mut_genome`: probability that an image is mutated (0.7 in our experiments
@@ -90,7 +90,7 @@ The controller program filename is `ga_control_rank_sel.py` and it executes mult
 - `num_gen`: an integer representing the number of generations to be executed
 
 Notes on these parameters:
-- See notes above for teh worker program regarding the arguments `folder_in` and `folder_out`.
+- See notes above for the worker program regarding the arguments `folder_in` and `folder_out`.
 - The controller program creates the `scen_name` argument that is used by the worker program as a folder name for the output.  It is a combination of the GA parameters being used.  
 
 To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command (with some example input arguments):
