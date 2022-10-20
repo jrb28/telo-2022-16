@@ -266,9 +266,10 @@ class GA():
     
     #def __init__(self, pop_size, num_gen, prob_mut_genome, prob_mut_pixel, prob_wht, prob_blk, gen, target_index, input_folder, output_folder, loaded_model, max_img, log_name, fit_type = 'mad', min_mad = 0.1, rand_mode = 'rand'):
     def __init__(self, pop_size, num_gen, prob_mut_genome, prob_mut_pixel, 
-                 prob_wht, prob_blk, gen, input_folder, model_filename, weights_filename, 
+                 prob_wht, prob_blk, input_folder, model_filename, weights_filename, 
                  output_folder, max_img, fit_type, select_type, min_mad, rand_mode, factor_rank_nonlinear, 
                  scen_name):
+        #print('__init__ started')
         ''' Set general parameters '''
         self.fit_parent_dtype = np.float64
         self.pop_size = pop_size
@@ -288,6 +289,8 @@ class GA():
         ''' re object for stripping filename characters '''
         self.re_strip = re.compile('_B\d+E\d+')
         
+        #print('parameters set; load model next')
+        
         ''' Create folder for scenario (scen_name) output files if it doesn't exist '''
         ''' The code below doesn't work in parallel sometimes (hypothesized) because multiple threads test true in the if statement
             and before the directory can be established, another process creates the directory '''
@@ -303,17 +306,21 @@ class GA():
             pass '''
         
         ''' Load Model & Weights, and Compile '''
+        #print(f'model path: {self.in_folder + model_filename}')
         json_file = open(self.in_folder + model_filename, 'r')
         loaded_model_json = json_file.read()
         json_file.close()
         self.model_abbrv = model_filename.replace('.json','')
         self.loaded_model = models.model_from_json(loaded_model_json)
+        #print(f'weights file path: {self.in_folder + weights_filename}')
         self.loaded_model.load_weights(self.in_folder + weights_filename)
         self.loaded_model.compile(optimizer='rmsprop',
                         loss='categorical_crossentropy',
                         metrics=['accuracy'])
         if self.max_img:
             print("Model loaded from disk and compiled")
+            
+        #print("Model loaded from disk and compiled")
 
         
         ''' Load Model and Compile '''
@@ -727,6 +734,7 @@ class GA():
     
     
     def evolve(self):
+        #print('evolve started')
         #timer_labels = ['crossover prob','best','selection','mutation','elitist','renew','replace','fitness']
         #self.timer_evolve = [[],[],[],[],[],[],[],[]]
         #timer_labels = ['select parents','crossover','new_pop','get fittest']
@@ -736,9 +744,11 @@ class GA():
         fs2 = ''
         start_time = datetime.datetime.now()
         for i in range(self.num_gen):
+            #print(f'{i}')
             if self.max_img:
                 print('Generation ' + str(i+1) + ':  ', end='')
             self.next_gen_w_contraint()
+            #print('next_gen() executed')
             
             ''' Print GA statistics to be captured by queue and written to file '''
             ''' Leading 1 indicates GA stats data '''
@@ -984,10 +994,17 @@ prints_img = False
 
 #scen_name = re.sub('_','-',re.sub('\.json','',args.file_model)) + '_' + str(pop_size) + '_' + str(num_gen)  + '_' + str(int(prob_mut_genome*100)) + '_'+ str(int(prob_mut_pixel*1000))  + '_' + args.fit_type  + '_' + args.select_type + '_' + args.rand_type
 
+''' Create folder for output if it doesn't exist '''
+if not os.path.isdir(args.out_folder + args.scen_name):
+    os.mkdir(args.out_folder + args.scen_name)
+
+#print(pop_size, num_gen, prob_mut_genome, prob_mut_pixel, prob_wht, prob_blk, args.in_folder, args.file_model, args.file_weights, args.out_folder, prints_img, args.fit_type, args.select_type, min_mad, args.rand_type, args.factor_rank_nonlinear, args.scen_name)
 ''' Instantiate GA object '''
 #ga = GA(pop_size, num_gen, prob_mut_genome, prob_mut_pixel, prob_wht, prob_blk, num_gen, i, input_folder, output_folder, loaded_model, prints_img, log_name, fit_type, min_mad, 'mad')
-ga = GA(pop_size, num_gen, prob_mut_genome, prob_mut_pixel, prob_wht, prob_blk, num_gen, args.in_folder, args.file_model, args.file_weights, args.out_folder, prints_img, args.fit_type, args.select_type, min_mad, args.rand_type, args.factor_rank_nonlinear, args.scen_name)
+ga = GA(pop_size, num_gen, prob_mut_genome, prob_mut_pixel, prob_wht, prob_blk, args.in_folder, args.file_model, args.file_weights, args.out_folder, prints_img, args.fit_type, args.select_type, min_mad, args.rand_type, args.factor_rank_nonlinear, args.scen_name)
+#print('GA initialized: {ga}')
 ga.new(args.mnist_id)
+#print('ga.new() executed')
 result = ga.evolve()
 '''
 for i in range(len(result)):

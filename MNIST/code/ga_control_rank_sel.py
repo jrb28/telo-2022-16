@@ -32,6 +32,21 @@ def run_this(q, mnist_id, fit_type, select_type, rand_type, fit_nonlin_rank, mod
     q.put(result)
     return result
 
+def run_this_no_q(mnist_id, fit_type, select_type, rand_type, fit_nonlin_rank, model_file, weights_file, 
+                  out_folder, in_folder, filepath_code, pop_size, prob_mut_genome, prob_mut_pixel, num_gen, 
+                  scen_name):
+    result = subprocess.run(['python', filepath_code , str(mnist_id), fit_type, select_type, rand_type, str(fit_nonlin_rank), model_file, weights_file, out_folder, in_folder, str(pop_size), str(prob_mut_genome), str(prob_mut_pixel), str(num_gen), scen_name], stdout=subprocess.PIPE)
+    result = result.stdout.decode('utf-8')
+    return result
+
+def str_to_bool(s):
+    if s == 'True':
+         return True
+    elif s == 'False':
+         return False
+    else:
+         raise ValueError 
+
 #def parse(x):
 #    x = x.rstrip(']').lstrip('[']).split(',')
 
@@ -43,7 +58,8 @@ if __name__ == '__main__':
     parser.add_argument('select_type', metavar='select_type', type=str, help='Selection method for parents')
     parser.add_argument('rand_type', metavar='select_type', type=str, help='Randomization mode for mutation and initializing populations: rand = uniformly random pixel values on [0.0,1.1]; mad = drawn from observed distribution of pixel values')
     parser.add_argument('factor_rank_nonlinear', metavar='factor_rank_nonlinear', type=float, help='Factor for nonlinear rank selectio')
-    parser.add_argument('num_proc', metavar='num_proc', type=str, help='Number of processes')
+    parser.add_argument('mp_mode', metavar='mp_mode', type=str, help='Multiprocessing mode (Boolean)')
+    parser.add_argument('num_proc', metavar='num_proc', type=str, help='Number of processes (integer)')
     parser.add_argument('file_model', metavar='file_model', type=str, help='JSON file for neural network model')
     parser.add_argument('file_weights', metavar='file_weights', type=str, help='h5 file for neural network weights')
     parser.add_argument('folder_in', metavar='folder', type=str, help='File path for input')
@@ -54,6 +70,7 @@ if __name__ == '__main__':
     parser.add_argument('pixel_mut_per_phenotype', metavar='folder', type=float, help='Probability of phenotype mutation')
     parser.add_argument('num_gen', metavar='folder', type=int, help='Number of generations')
     args = parser.parse_args()
+    mp_mode = str_to_bool(args.mp_mode)
     start = time.time()
     
     genome_size = 784
@@ -79,11 +96,6 @@ if __name__ == '__main__':
         indices = list(range(args.start_id, args.end_id+1))
     num_progs = len(indices)
     
-    try:
-        num_proc = int(args.num_proc) #18 #4
-        print('Creating pool with %d processes\n' % num_proc)
-    except:
-        print('Argument for number of processes cannot be converted to an integer. \n')
     #num_progs = args.end_id - args.start_id + 1   # commented out for missing index work
     #model_file = args.file_model    #'ff_mnist.json'
     #weights_file = args.file_weights  #'ff_mnist.h5'
@@ -127,54 +139,83 @@ if __name__ == '__main__':
         result = run_this(q, i, args.fit_type, args.select_type, args.rand_type,  args.factor_rank_nonlinear, args.file_model, args.file_weights, args.folder_out, args.folder_in, args.filepath_code, args.pop_size, args.prob_mut_genome, prob_mut_pixel, args.num_gen)
         print(result) '''
 
-    with multiprocessing.Pool(num_proc) as pool:
+    if mp_mode:
+        try:
+            num_proc = int(args.num_proc) #18 #4
+            print('Creating pool with %d processes\n' % num_proc)
+        except:
+            print('Argument for number of processes cannot be converted to an integer. \n')
         
-        m = multiprocessing.Manager()
-        q = m.Queue()
-        #filepath =  #'/code/ga_mnist_adv_worker_rank-sel_new.py'   # '/code/ga_mnist_adv_worker.py'
+        with multiprocessing.Pool(num_proc) as pool:
         
-        TASKS = [(q, i, args.fit_type, args.select_type, args.rand_type,  args.factor_rank_nonlinear, args.file_model, args.file_weights, args.folder_out, args.folder_in, args.filepath_code, args.pop_size, args.prob_mut_genome, prob_mut_pixel, args.num_gen, scen_name) for i in indices]  #range(args.start_id, args.end_id + 1)
-        
+            m = multiprocessing.Manager()
+            q = m.Queue()
+            #filepath =  #'/code/ga_mnist_adv_worker_rank-sel_new.py'   # '/code/ga_mnist_adv_worker.py'
             
-        #results1 = pool.starmap(run_this, TASKS)
-        # Trial with async
-        results1 = pool.starmap_async(run_this, TASKS)
-        print('DONE')
-        #results = [pool.apply_async(calculate, t) for t in TASKS]
-        #imap_it = pool.imap(calculatestar, TASKS)
-        #imap_unordered_it = pool.imap_unordered(calculatestar, TASKS)
+            TASKS = [(q, i, args.fit_type, args.select_type, args.rand_type,  args.factor_rank_nonlinear, args.file_model, args.file_weights, args.folder_out, args.folder_in, args.filepath_code, args.pop_size, args.prob_mut_genome, prob_mut_pixel, args.num_gen, scen_name) for i in indices]  #range(args.start_id, args.end_id + 1)
+            
+                
+            #results1 = pool.starmap(run_this, TASKS)
+            # Trial with async
+            results1 = pool.starmap_async(run_this, TASKS)
+            print('DONE')
+            #results = [pool.apply_async(calculate, t) for t in TASKS]
+            #imap_it = pool.imap(calculatestar, TASKS)
+            #imap_unordered_it = pool.imap_unordered(calculatestar, TASKS)
+        
+            '''
+            print('starmap() results:')
+            for r in results1:
+                try:
+                    print('\t try ', r.get())
+                except:
+                    print('\t except ', r)
+            print() '''
+            
+            '''
+            for i in range(1, num_progs):
+                print("result", i, ":", q.get())'''
+            
+            # Trial with async
+            #print(results1)
+            
+            num_retrieve = 0
+            while num_retrieve < num_progs:
+                try:
+                    result = q.get()
+                    #if result != None:
+                    print("result", num_retrieve, ":", result)
+                    num_retrieve += 1
+                    #result = result.rstrip(']').lstrip('[').split(',')
+                    f = open(output_file,'a')  #, buffering=0
+                    f.write(result)
+                    f.write('\n')
+                    f.close()
+                except:
+                    time.sleep(1)
+                    
+        end = time.time()
+        with open(args.folder_out + scen_name + '_timing.txt','w') as f:
+            f.write(str(float(end) - float(start)))
     
-        '''
-        print('starmap() results:')
-        for r in results1:
-            try:
-                print('\t try ', r.get())
-            except:
-                print('\t except ', r)
-        print() '''
+                    
+    else:
+        results1 = []
+        for t in [(i, args.fit_type, args.select_type, args.rand_type,  args.factor_rank_nonlinear, args.file_model, args.file_weights, args.folder_out, args.folder_in, args.filepath_code, args.pop_size, args.prob_mut_genome, prob_mut_pixel, args.num_gen, scen_name) for i in indices]:
+            results1.append(run_this_no_q(*t))
+            
+        '''Write results to file '''
+        results1 = [r.lstrip('[').rstrip(']').strip("'").strip().replace('\\n','\n') for r in results1]
+        print(results1)
         
-        '''
-        for i in range(1, num_progs):
-            print("result", i, ":", q.get())'''
+        '''Write results to file '''
+        #output_file = out_folder + filename_stub + ext + '.csv'  # filename established previously
+        with open(output_file,'w') as f:
+            f.write(''.join(results1))
         
-        # Trial with async
-        #print(results1)
+        params = args.fit_type + '_' + args.select_type + '_' + args.rand_type + '_' + str(args.factor_rank_nonlinear) + '_'
+        with open(args.folder_out + params + '_' + str(args.start_id) + '_' + str(args.end_id) + '.csv', 'w') as f:
+            f.write(f'Execution time: {float(time.time() - start)/60} minutes for {args.end_id - args.start_id + 1} images')
         
-        num_retrieve = 0
-        while num_retrieve < num_progs:
-            try:
-                result = q.get()
-                #if result != None:
-                print("result", num_retrieve, ":", result)
-                num_retrieve += 1
-                #result = result.rstrip(']').lstrip('[').split(',')
-                f = open(output_file,'a')  #, buffering=0
-                f.write(result)
-                f.write('\n')
-                f.close()
-            except:
-                time.sleep(1)
-        
-    end = time.time()
-    with open(args.folder_out + scen_name + '_timing.txt','w') as f:
-        f.write(str(float(end) - float(start)))
+    
+    print('Done.')

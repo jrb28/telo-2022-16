@@ -61,7 +61,8 @@ if __name__ == '__main__':
     parser.add_argument('num_proc', metavar='num_proc', type=str, help='Number of processes')
     parser.add_argument('file_model', metavar='file_model', type=str, help='JSON file for neural network model')
     #parser.add_argument('file_weights', metavar='file_weights', type=str, help='h5 file for neural network wieghts')
-    parser.add_argument('folder', metavar='folder', type=str, help='base file folder for code/input/output subfolders')
+    parser.add_argument('folder', metavar='folder', type=str, help='base file folder for input')
+    parser.add_argument('folder_out', metavar='folder', type=str, help='file folder for output')
     parser.add_argument('gpu_mode', metavar='gpu_mode', type=str, help='GPU/CPU prediction mode (Boolean)')
     parser.add_argument('mp_mode', metavar='mp_mode', type=str, help='Multiprocessing mode (Boolean)')
     parser.add_argument('batch_id', metavar='batch_id', type=str, help='Batch ID')
@@ -90,10 +91,12 @@ if __name__ == '__main__':
         
     
     ''' Find unique file name for output and establish it '''
+    '''
     try:
         subfold_out = os.environ['COMPUTERNAME'] + '/'
     except:
         subfold_out = 'hpc/'
+    '''
     
     ''' code to determine sequential file integer extension 
     nums = re.compile('[0-9]+\.csv')
@@ -119,8 +122,10 @@ if __name__ == '__main__':
     f.close()'''
     
     ''' set up output file folder and file name '''
-    out_folder = args.folder + 'output/' + subfold_out
-    output_file = out_folder + filename_stub + args.batch_id + '.csv'
+    #out_folder = args.folder + 'output/'  + subfold_out
+    #output_file = out_folder + filename_stub + args.batch_id + '.csv'
+    output_file = args.folder_out + args.batch_id + '.csv'
+    
 
     if mp_mode:
         try:
@@ -135,7 +140,7 @@ if __name__ == '__main__':
             q = m.Queue()
             
             #TASKS = [(q, i, model_file, weights_file, out_folder, args.folder) for i in range(args.start_id, args.end_id + 1)]             
-            TASKS = [(q, i, model_file, out_folder, args.folder, args.fit_type, args.select_type, args.rand_type, args.factor_rank_nonlinear, args.gpu_mode) for i in indices]
+            TASKS = [(q, i, model_file, args.folder_out, args.folder, args.fit_type, args.select_type, args.rand_type, args.factor_rank_nonlinear, args.gpu_mode) for i in indices]
     
             #results1 = pool.starmap(run_this, TASKS)
             # Use async version of starmap and collect output via a queue
@@ -175,7 +180,7 @@ if __name__ == '__main__':
             results1 = [r for r in results1.get()]
     else:
         results1 = []
-        for t in [(i, model_file, out_folder, args.folder, args.fit_type, args.select_type, args.rand_type, args.factor_rank_nonlinear, args.gpu_mode) for i in indices]:
+        for t in [(i, model_file, args.folder_out, args.folder, args.fit_type, args.select_type, args.rand_type, args.factor_rank_nonlinear, args.gpu_mode) for i in indices]:
             results1.append(run_this_no_q(*t))
         #print(results1)
     
@@ -189,7 +194,7 @@ if __name__ == '__main__':
         f.write(''.join(results1))
     
     params = args.fit_type + '_' + args.select_type + '_' + args.rand_type + '_' + str(args.factor_rank_nonlinear) + '_'
-    with open(out_folder + params + '_' + str(args.start_id) + '_' + str(args.end_id) + '.csv', 'w') as f:
+    with open(args.folder_out + params + '_' + str(args.start_id) + '_' + str(args.end_id) + '.csv', 'w') as f:
         f.write(f'Execution time: {float(time.time() - time_start)/60} minutes for {args.end_id - args.start_id + 1} images')
     
     print('Done.')

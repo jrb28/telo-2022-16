@@ -132,7 +132,7 @@ class GA():
                         loss='categorical_crossentropy',
                         metrics=['accuracy'])
         '''
-        self.loaded_model = models.load_model(input_folder + model_filename + '.h5')
+        self.loaded_model = models.load_model(input_folder + model_filename) #models.load_model(input_folder + model_filename + '.h5')
         self.loaded_model.compile(loss='categorical_crossentropy', optimizer='RMSprop', metrics=['accuracy'])
         '''
         if self.gpu_mode:
@@ -192,8 +192,10 @@ class GA():
         
         ''' Note that the pixels values loaded in the statement below are np.uint8 integers '''
         ''' load CIFAR from file '''
+        ''' Replace loading of resident files with download from tensorflow.keras.datasets 
         self.train_images = np.load(input_folder + 'cifar_train_images.npy')
-        self.train_labels = np.load(input_folder + 'cifar_train_labels.npy')
+        self.train_labels = np.load(input_folder + 'cifar_train_labels.npy') '''
+        ((self.train_images,self.train_labels),(_,_)) = cifar10.load_data()
         
         ''' load using tensorflow 
         if self.gpu_mode:
@@ -1108,9 +1110,6 @@ def fitness(target,cand):
     return 1/np.sum((target - cand)**2, axis = (1,2))
 
 
-''' Hide GPU from tensorflow '''
-tf.config.experimental.set_visible_devices([], 'GPU')
-
 
 ''' Handle input arguments '''
 parser = argparse.ArgumentParser(description='Generate adversarial examples for neural network')
@@ -1127,6 +1126,12 @@ parser.add_argument('factor_rank_nonlinear', metavar='factor_rank_nonlinear', ty
 parser.add_argument('gpu_mode', metavar='gpu_mode', type=str, help='GPU/CPU prediction')
 args = parser.parse_args()
 
+
+''' Hide GPU from tensorflow '''
+if not args.gpu_mode:
+    tf.config.experimental.set_visible_devices([], 'GPU')
+
+
 ''' Set GA parameters '''
 pop_size = 2000   # population size
 prob_mut_genome = .4 #1.0  # probability of mutation
@@ -1141,9 +1146,10 @@ max_mad = 0.5 #0.15
 ''' Note: args.rand_type is not used as all mutations and initial populations are generated with the formerly called "bright" mode '''
 rand_type = 'bright'
 out_only_best = True
-input_folder = args.folder +  'data/' #'/sciclone/home10/jrbrad/files/mnist/input/'
+input_folder = args.folder #+  'data/' #'/sciclone/home10/jrbrad/files/mnist/input/'
 output_folder = args.out_folder #'/sciclone/home10/jrbrad/files/mnist/output/'
 prints_img = False
+print(f'output folder: {args.out_folder}')
         
 
 '''
@@ -1170,10 +1176,13 @@ scen_name = re.sub('_','-',re.sub('\.json','',model_filename)) + '_' + 'pop' + s
 #  + '_' + re.sub('_','-',re.sub('\.h5','',weights_filename))
 
 ''' Instantiate GA object '''
+print(f'GA args: {pop_size, num_gen, prob_mut_genome, prob_mut_pixel, mut_light_bias, num_gen, args.folder, input_folder, model_filename, output_folder, prints_img, args.fit_type, args.select_type, args.factor_rank_nonlinear, min_mad, max_mad, rand_type, args.gpu_mode, out_only_best}')
 #ga = GA(pop_size, num_gen, prob_mut_genome, prob_mut_pixel, prob_wht, prob_blk, num_gen, i, input_folder, output_folder, loaded_model, prints_img, log_name, fit_type, min_mad, 'mad')
 ga = GA(pop_size, num_gen, prob_mut_genome, prob_mut_pixel, mut_light_bias, num_gen, args.folder, input_folder, model_filename, output_folder, 
         prints_img, args.fit_type, args.select_type, args.factor_rank_nonlinear, min_mad, max_mad, rand_type, args.gpu_mode, out_only_best)
+print('ga initialized')
 ga.new(args.cifar_id)
+print('ga.new() complete')
 result = ga.evolve()
 for i in range(len(result)):
     result[i] = scen_name + ',' + result[i]
