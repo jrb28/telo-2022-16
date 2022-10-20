@@ -14,10 +14,7 @@ We provided below directions to run the MNIST AE code in an Anaconda environment
   - Finally, execute this command in the Anaconda Command Prompt with the environment of your choice:
     - <pre><code>conda env create -f <em>path_to_file</em>/keras-gpu_tf14.yml</code></pre>
 
-For a GPU to be successfully used, it be cuda enabled and the appropriate versions of `cuda` and `cudnn` must be installed. 
-
-
-
+For a GPU to be successfully used, it be cuda enabled and, furthermore, graphics drivers must be up to date with the appropriate versions of `cuda` and `cudnn`  installed.
 
 
 [^pgd]: xxxxx
