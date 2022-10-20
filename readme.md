@@ -122,7 +122,7 @@ The input arguments for these command line programs are as follows, in this orde
 - `out_folder`: 
 - `fit_type`: one of `L1, L1-lin, L2, L2-lin, Linf, Linf-lin`
 - `select_type`: one of `proportionate, rank-linear, rank-nonlinear`
-- `rand_type`: either `rand` or `mad`
+- `rand_type`: `bright` for brightness mutation
 - `factor_rank_nonlinear`: a floating-point value greater than 0.0 but less than 1.0.  This is a required argument even if rank-nonlinear selection is not being used.
 - `gpu_mode`: either `FF.json` or `CNN.json`
 
