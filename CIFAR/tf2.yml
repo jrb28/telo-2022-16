@@ -1,4 +1,4 @@
-name: tf2new
+name: tf2
 channels:
   - numba
   - http://conda.anaconda.org/gurobi
