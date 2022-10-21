@@ -14,3 +14,7 @@ The production runs of this code were run on a high-performance computing cluste
     - <pre><code>conda env create -f <em>path_to_file</em>/tf2.yml</code></pre>
 
 For a GPU to be successfully used, it be `cuda` enabled and, furthermore, graphics drivers must be up to date with the appropriate versions of `cuda` and `cudnn`  installed.   Success with a GPU is also dependent, of course, on the GPU having sufficient memory.
+
+# Executing the Code
+
+xxx these code fiels can be used eitehr with a CPU or a GPU by supplying an appropriate input argument
