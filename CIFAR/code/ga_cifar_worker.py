@@ -111,7 +111,7 @@ class GA():
         self.best_dump = True
         self.db_out = True
         self.out_only_best = True
-        self.scen_name = '_'.join([model_filename, self.fit_type, self.select_type, self.rand_mode])
+        self.scen_name = '_'.join([model_filename.rstrip('.h5'), self.fit_type, self.select_type, self.rand_mode])
         self.best_fit_file = self.scen_name + '_bf_%d.npy'
         
         ''' These variables are not needed for CIFAR data as they were for MNIST '''
@@ -453,7 +453,7 @@ class GA():
 
     def pop_gen_mut(self):
         ''' Parameters '''
-        num_reps = 50000  # Number of mutated images to generate for each number of changed pixels, for each iteration, for each image
+        num_reps = 5000  # Number of mutated images to generate for each number of changed pixels, for each iteration, for each image
         factor = [1.1, 0.8]  # Factors to increase or reduce the amount by which hues are adjusted in mutant pixels
         #num_adv_eg_goal = self.pop_size  # Number o of adv egs to generate per image
         #num_rng = [200, 1667]  # Thresholds for number of adv egs found in each iteration.  If the number of images found
@@ -489,6 +489,7 @@ class GA():
         ''' Continue looping as long as the target number of adv egs has not been achieved or maximum iterations has been reached '''
         while num_adv_eg < self.pop_size and num_iter < max_iter:
             num_iter += 1       # Increment the iteration counter
+            print(f'population initialization iteration: {num_iter}; population size: {adv_eg.shape[0]}')
             if num_adv_eg <= 100 and num_iter > 4 and not self.num_pix_mut_expand:
                 scale = np.concatenate((scale, scale_alt))
                 num_pix_mut = np.concatenate((num_pix_mut, num_pix_mut_alt))
@@ -568,7 +569,7 @@ class GA():
             
             ''' Dump images to numpy file '''
             if self.img_dump:
-                with open(self.folder_base + self.image_folder + self.img_dump_file  % self.cifar_idx, 'wb') as f_dump:
+                with open(self.in_folder + self.image_folder + self.img_dump_file  % self.cifar_idx, 'wb') as f_dump:
                     np.save(f_dump, adv_eg)
             
             ''' Fitness in RGB encoding '''
@@ -817,12 +818,13 @@ class GA():
         #digits = [(np.argmax(self.loaded_model.predict(np.array([self.pop[pop_fit_here[i][1]].reshape(784,)]))),i) for i in range(best_dim)]
         ''' find best fit for each category '''
         ''' also, count how many categories are occupied by best fit from above'''
-        best_ind = [-1 for i in range(10)]
+        best_ind = np.array([-1 for i in range(10)])
         for i in range(len(digits)-1,-1,-1):
             best_ind[digits[i]] = pop_fit_here[i][1]
         # Safeguard in case any of the population have been mutated into the target class
         best_ind[self.target_label_dig] = -1
-        count_good = sum([1 for x in best_ind if x >= 0])
+        #count_good = sum([1 for x in best_ind if x >= 0])
+        count_good = np.sum(best_ind >= 0)
         
         # adjusted statement below for numpy parents data type
         #parents = [tuple(self.pick_parents()) for i in range(self.pop_size - count_good)]
@@ -892,6 +894,7 @@ class GA():
             self.pop = self.pop_gen_mut()
             with open(self.in_folder + 'pop_' + str(self.cifar_idx) + '.npy', 'wb') as f:
                 np.save(f, self.pop)
+        print('population initialized')
         
         self.compute_lin_fit_coeff()
         self.fitness()
@@ -904,6 +907,7 @@ class GA():
         
         for i in range(self.num_gen):
             self.gen = i
+            print(f'Generation {i}')
             if self.max_img:
                 print('Generation ' + str(i+1) + ':  ', end='')
             self.next_gen_w_contraint()
@@ -974,7 +978,7 @@ class GA():
         
         ''' write best image to file '''
         if self.write_adv_eg:
-            with open(self.folder_base + self.image_folder + (self.best_fit_file % (self.cifar_idx)), 'wb') as f_best:
+            with open(self.out_folder + self.image_folder + (self.best_fit_file % (self.cifar_idx)), 'wb') as f_best:
                 np.save(f_best, best_images[0])
         
         ''' Put best into database '''
@@ -1128,7 +1132,8 @@ args = parser.parse_args()
 
 
 ''' Hide GPU from tensorflow '''
-if not args.gpu_mode:
+if not str_to_bool(args.gpu_mode):
+    print('Hello: GPU is hidden')
     tf.config.experimental.set_visible_devices([], 'GPU')
 
 

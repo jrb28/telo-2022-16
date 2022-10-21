@@ -1,1 +1,0 @@
-1000 2000 0.7 3.2525510204081634e-06 0.25 0.7 2000 ../input FF.json FF.h5 ../output False L2 rank-linear 0.1 rand 0.9 FF_1000_2000_70_0_L2_rank-linear_rand1000 2000 0.7 3.2525510204081634e-06 0.25 0.7 2000 ../input FF.json FF.h5 ../output False L2 rank-linear 0.1 rand 0.9 FF_1000_2000_70_0_L2_rank-linear_rand
