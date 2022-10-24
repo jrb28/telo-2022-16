@@ -11,16 +11,10 @@ This code is protected by the Academic Free license Version 3.0
 See LICENSE.md in the repository root folder for the terms of this license
 '''
 
-#import matplotlib.pyplot as plt
 import random
-#import glob
-
-#import os
-#os.environ["CUDA_VISIBLE_DEVICES"]="-1"
 from keras import models
 from keras.utils import to_categorical
 from keras.datasets import mnist
-
 import numpy as np
 import json
 import argparse

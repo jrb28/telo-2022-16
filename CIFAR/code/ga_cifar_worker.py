@@ -77,8 +77,6 @@ class GA():
         self.max_mad = max_mad #0.15
         self.rand_mode = rand_mode
         self.gpu_mode = str_to_bool(gpu_mode)
-        #self.log_name = log_name
-        #self.rand_mode = rand_mode
         ''' re object for stripping filename characters '''
         self.re_strip = re.compile('_B\d+E\d+')
         self.train_images_num = 50000
@@ -93,8 +91,6 @@ class GA():
         self.prob_mut_genome = prob_mut_genome
         self.prob_mut_pixel = prob_mut_pixel
         self.mut_light_bias = mut_light_bias  # 0 = all mutations toward target pixel, 0.5 = half toward, half away from target pixel, 1.0 = all away
-        #self.mut_bias = 0.1  # 0 = all mutations toward target pixel, 0.5 = half toward, half away from target pixel, 1.0 = all away
-        # Settings before experiment with introducing light_mut_bias (prob_mut_genome, prob_mut_pixel, self.mut_bias) = (1.0, 0.5, 0.0)
         
         ''' Settings for image/data storage '''
         self.in_folder = input_folder
@@ -102,47 +98,20 @@ class GA():
         self.write_pop_gen = False        # IF True, write log file for population initialization
         self.max_img = max_img            # If True, then prints image of best-fit and other messaging
         self.img_dump = False   # Flag for writing initial population to numpy file
-        #self.img_read = False  # Flag for reading initial population from numpy file
         self.img_dump_file = 'pop_%d.npy'
         self.image_folder = 'images/'
         self.folder_base = folder_base
         ''' Placeholders for, in this order, CIFAR ID, 100*mut_genome, 100*mut_pixel, 100*mut_light_bias, serial # with these settings '''
-        #self.best_fit_file = 'best_fit_%d_%d_%d_%d_%d.npy'
         self.best_dump = True
         self.db_out = True
         self.out_only_best = True
         self.scen_name = '_'.join([model_filename.rstrip('.h5'), self.fit_type, self.select_type, self.rand_mode])
         self.best_fit_file = self.scen_name + '_bf_%d.npy'
         
-        ''' These variables are not needed for CIFAR data as they were for MNIST '''
-        '''
-        self.prob_wht = prob_wht
-        self.prob_blk = prob_blk
-        '''
-        
         
         ''' Load Model & Weights, and Compile '''
-        '''
-        json_file = open(input_folder + model_filename, 'r')
-        loaded_model_json = json_file.read()
-        json_file.close()
-        self.loaded_model = models.model_from_json(loaded_model_json)
-        self.loaded_model.load_weights(input_folder + weights_filename)
-        self.loaded_model.compile(optimizer='rmsprop',
-                        loss='categorical_crossentropy',
-                        metrics=['accuracy'])
-        '''
         self.loaded_model = models.load_model(input_folder + model_filename) #models.load_model(input_folder + model_filename + '.h5')
         self.loaded_model.compile(loss='categorical_crossentropy', optimizer='RMSprop', metrics=['accuracy'])
-        '''
-        if self.gpu_mode:
-            with tf.device('/gpu:0'):
-                self.loaded_model = models.load_model(input_folder + model_filename + '.h5')
-                self.loaded_model.compile(loss='categorical_crossentropy', optimizer='RMSprop', metrics=['accuracy'])
-        else:
-            with tf.device('/cpu:0'):
-                self.loaded_model = models.load_model(input_folder + model_filename + '.h5')
-                self.loaded_model.compile(loss='categorical_crossentropy', optimizer='RMSprop', metrics=['accuracy']) '''
 
         if self.max_img:
             print("Model loaded from disk and compiled")
@@ -178,17 +147,6 @@ class GA():
                   for purposes of this computation
                 - pop_fit() requires a population shape of (-1,3072)
             '''
-        '''
-        filenames = ['data_batch_1', 'data_batch_2', 'data_batch_3', 'data_batch_4', 'data_batch_5', ]
-        self.train_labels = []
-        self.train_images = np.array([]).astype(np.uint8).reshape(0,3072)
-        for filename in filenames:
-            data = self.unpickle(self.in_folder + filename)
-            self.train_images = np.concatenate((self.train_images, data[b'data']))
-            self.train_labels += np.array(data[b'labels'])
-        del data
-        assert self.train_images.shape == (self.train_images_num, self.num_pixels_rgb)
-        '''
         
         ''' Note that the pixels values loaded in the statement below are np.uint8 integers '''
         ''' load CIFAR from file '''
@@ -197,33 +155,9 @@ class GA():
         self.train_labels = np.load(input_folder + 'cifar_train_labels.npy') '''
         ((self.train_images,self.train_labels),(_,_)) = cifar10.load_data()
         
-        ''' load using tensorflow 
-        if self.gpu_mode:
-            with tf.device('/gpu:0'):
-                (self.train_images, self.train_labels), (self.test_images, self.test_labels) = cifar10.load_data()
-                self.train_images = self.train_images.reshape(50000, 1024, 3).astype(np.uint8)  # added 3 channels for serialized pixels
-                #assert self.train_images.shape == (self.train_images_num, 32, 32, 3)
-                self.train_labels = self.train_labels.reshape((50000,))
-        else:
-            with tf.device('/cpu:0'):
-                (self.train_images, self.train_labels), (self.test_images, self.test_labels) = cifar10.load_data()
-                self.train_images = self.train_images.reshape(50000, 1024, 3).astype(np.uint8)  # added 3 channels for serialized pixels
-                #assert self.train_images.shape == (self.train_images_num, 32, 32, 3)
-                self.train_labels = self.train_labels.reshape((50000,)) '''
-        
-        # `to_categorical` converts this into a matrix with as many
-        # columns as there are classes. The number of rows
-        # stays the same.
-        #self.train_labels = to_categorical(self.train_labels)
-        #self.test_labels = to_categorical(self.test_labels)
-        
         if self.max_img:
             print ("train_images.shape",self.train_images.shape)
             print ("len(train_labels)",len(self.train_labels))
-            #print("train_labels",self.train_labels)
-            #print("test_images.shape", self.test_images.shape)
-            #print("len(test_labels)", len(self.test_labels))
-            #print("test_labels", self.test_labels)
             print('CIFAR data loaded')
         
         
@@ -261,40 +195,7 @@ class GA():
                     my_str = my_str.rstrip(', ')
                     f.write(my_str + '\n')
                 f.close()
-                
-                '''
-                indices = np.arange(10, dtype=int)
-                obs = [False for i in range(10)]
-                for i in range(len(self.train_labels)):
-                    this_dig = np.matmul(self.train_labels[i],indices).astype(int)
-                    if isinstance(obs[this_dig], bool):
-                        obs[this_dig] = self.train_images[i]
-                    else:
-                        obs[this_dig] = np.vstack([obs[this_dig], self.train_images[i]])
-                        
-                # This is a list of pixel medians with one element for each digit type
-                self.mad = [np.median(obs[i], axis=0) for i in range(len(obs))] 
-                
-                # Compute absolute deviations from the pixel medians
-                self.mad = [np.abs(np.subtract(obs[i], self.mad[i])) for i in range(len(obs))]
-                
-                # Compute medians of absolute differences/deviations, that is, MAD
-                self.mad = [np.median(self.mad[i], axis=0) for i in range(len(obs))]
-                
-                # Set minimum value for MAD to avoid division by zero
-                self.mad = np.minimum(np.maximum(self.mad, self.min_mad),max_mad)
-                
-                del obs
-                
-                f = open(self.in_folder + 'mnist_mad.csv','w')
-                for i in range(len(self.mad)):
-                    my_str = ''
-                    for j in range(self.mad[i].shape[0]):
-                        my_str += str(self.mad[i,j]) + ', '
-                    my_str = my_str.rstrip(', ')
-                    f.write(my_str + '\n')
-                f.close()
-                '''
+
         
     def new(self,cifar_idx):
         ''' Define target '''
@@ -363,16 +264,6 @@ class GA():
         if self.max_img:
             print('Random population created')      '''
         
-    
-    ''' Required for  loading native CIFAR data files '''
-    '''
-    def unpickle(self, file):
-        import pickle
-        with open(file, 'rb') as fo:
-            d = pickle.load(fo, encoding='bytes')  
-        return d
-    '''
-
     
     def fitness(self):
         if self.fit_type == 'mad-linear':
@@ -446,7 +337,6 @@ class GA():
         if self.fit_type == 'Linf-lin':
             self.Linf_max = 1.0
      
-    #@njit
     def mut_pick(self, idx_mut, npm):
         for i in range(idx_mut.shape[0]):
             idx_mut[i] = np.random.choice(1024, (npm,), replace = False)
@@ -604,33 +494,7 @@ class GA():
         while self.check_target_class(np.array(img)):
             img =  [self.rand_pixel() for i in range(784)]
         return np.array(img)
-    
-    ''' Function no longer needed after MNIST code was refactored in the conversion to CIFAR code  '''
-    '''
-    def rand_mnist_mad_w_constraint(self):
-        #img =  [self.rand_mad_pixel(i) for i in range(784)]
-        while self.check_target_class(np.array(img)):
-            img =  [self.rand_mad_pixel(i) for i in range(784)]
-        return np.array(img)
-    '''
-    
-    ''' Function not referenced in reamining code '''
-    '''
-    def rand_pixel(self):
-        return 0.0 if random.random() <= self.prob_blk else 1.0 if random.random() <= self.prob_wht else random.randint(1,255)/255
-    '''
-    
-    ''' function not referenced in remaining code '''
-    '''
-    def rand_mad_pixel(self,i):
-        #x = random.random()
-        #j = 0
-        #while self.f_mad_list[i][j][0] < x:
-        #    j +=1
-        #return self.f_mad_list[i][j][1]/255
-        
-        return self.train_images[np.random.randint(0, self.train_images_num), i]
-    ''' 
+
     
     def get_max_fit(self, show_image):
         fit_ind_gen = np.argmax(self.pop_fit)
@@ -660,23 +524,7 @@ class GA():
             
         return
     
-    ''' function note needed for data laoded from tensorflow '''
-    '''
-    def cifar2img(self, imgs):
-        if imgs.size == 3072 and imgs.ndim == 1:
-            return np.dstack((imgs[:1024], imgs[1024:2048], imgs[2048:])).reshape(32,32,3)
-        else:
-            imgs = np.dstack((imgs[:,:1024], imgs[:,1024:2048], imgs[:,2048:]))
-            return imgs.reshape(-1,32,32,3) '''
-
-    ''' This form of the function was appropriate when data was loaded from native CIFAR data files '''
-    '''    
-    def show_image(self,img):
-            plt.imshow(self.cifar2img(img))
-            plt.show()
-            return
-    '''
-    
+        
     def show_image(self,img):
         plt.imshow(img.reshape(32, 32, 3))
         plt.show()
@@ -692,22 +540,6 @@ class GA():
             parents = np. concatenate((parents, parents_new[:, parents_new[0] != parents_new[1]]), axis=1)
         return(parents[:, :num_needed])    # self.pop_size
         
-        ''' Old code '''
-        '''
-        rn = [random.random(), random.random()]
-        rn.sort()
-        parents = []
-        i = 0
-        ind = 0
-        while len(parents) < 2:
-            while rn[ind] > self.pop_cum_prob[i]:
-                i += 1
-            parents.append(i)
-            ind += 1
-            if (ind < 2) and (rn[ind] < self.pop_cum_prob[i]):
-                parents.append(i)
-        return parents
-        '''
     
     def compute_c_o_prob(self):
         if self.select_type == 'proportionate':
@@ -725,29 +557,6 @@ class GA():
             print('Invalid select_type')
         return
     
-    '''
-    def mutate_one(self,img):
-        if random.random() <= self.prob_mut_genome:
-                for j in range(len(self.pop[0])):
-                    if random.random() <= self.prob_mut_pixel:
-                        img[j] = self.rand_pixel()
-        
-    def mutate_one_pop(self,pop):
-        for i in range(len(pop)):
-            if random.random() <= self.prob_mut_genome:
-                for j in range(len(self.pop[0])):
-                    if random.random() <= self.prob_mut_pixel:
-                        pop[i][j] = self.rand_pixel()
-    '''
-    
-    ''' function not referenced in reamaining code '''
-    '''
-    def mutate_one_mad(self,img):
-        if random.random() <= self.prob_mut_genome:
-                for j in range(len(self.pop[0])):
-                    if random.random() <= self.prob_mut_pixel:
-                        img[j] = self.rand_mad_pixel(j)
-    '''
         
     def mutate_bright_pop(self,pop):
         
@@ -774,15 +583,6 @@ class GA():
             such a population member is wasted.  On the other hand, it may be an effective parent '''
     
     def mutate_one_mad_pop(self,pop):
-        '''
-        for i in range(len(pop)):
-            if random.random() <= self.prob_mut_genome:
-                for j in range(len(self.pop[0])):
-                    if random.random() <= self.prob_mut_pixel:
-                        pop[i][j] = self.rand_mad_pixel(j)
-        '''
-        
-        
         ''' Determine pixels to mutate '''
         mutate_genome_filter = np.random.random((pop.shape[0],)) <= self.prob_mut_genome
         mutate_pixel_filter = np.random.random(pop.shape[:2]) <= self.prob_mut_pixel
@@ -807,15 +607,7 @@ class GA():
         best_dim = min(15,len(pop_fit_here))
         sort_ind = [x[1] for x in pop_fit_here[:best_dim]]
         digits = np.argmax(self.loaded_model.predict(self.pop[sort_ind].reshape(-1,32,32,3)), axis=1)
-        '''
-        if self.gpu_mode:
-            with tf.device('/gpu:0'):
-                digits = np.argmax(self.loaded_model.predict(self.pop[sort_ind].reshape(-1,32,32,3)), axis=1)
-        else:
-            with tf.device('/cpu:0'):
-                digits = np.argmax(self.loaded_model.predict(self.pop[sort_ind].reshape(-1,32,32,3)), axis=1) '''
         
-        #digits = [(np.argmax(self.loaded_model.predict(np.array([self.pop[pop_fit_here[i][1]].reshape(784,)]))),i) for i in range(best_dim)]
         ''' find best fit for each category '''
         ''' also, count how many categories are occupied by best fit from above'''
         best_ind = np.array([-1 for i in range(10)])
@@ -834,15 +626,6 @@ class GA():
         new_pop = np.vstack(new_pop).astype(np.float32)
         
         ''' Mutation '''
-        ''' The mutation method formerly associated with self.rand_mode=='bright' is now used for all mutations '''
-        '''
-        if self.rand_mode == 'rand':
-            self.mutate_one_pop(new_pop)
-        elif self.rand_mode == 'mad':
-            self.mutate_one_mad_pop(new_pop)
-        elif self.rand_mode == 'bright':
-            self.mutate_bright_pop(new_pop) '''
-            
         self.mutate_bright_pop(new_pop)
         
         #new_pop = np.array(new_pop, dtype = np.float32)        
@@ -855,25 +638,7 @@ class GA():
             if best_ind[i] >= 0:
                 new_pop = np.vstack((new_pop, self.pop[best_ind[i]][np.newaxis,:,:]))
         
-        '''
-        for i in range(len(new_pop)):
-            if target_match[i]:
-                if random.random() <=0.5:
-                    new_pop[i] = parents[i][0]
-                else:
-                    new_pop[i] = parents[i][1]
-        '''
-        
-                
         self.pop = new_pop.copy()
-        
-        ''' Fitness now computed with fitness() helper() function '''
-        '''
-        if self.fit_type == 'mad':
-            self.pop_fit = self.fit_mad() #[self.fitness_mad(p) for p in self.pop]
-        else:
-            self.pop_fit = self.fit_ssd() #[self.fitness(p) for p in self.pop]
-        '''
         
         self.get_max_fit(self.max_img) 
         self.fitness()
@@ -917,13 +682,6 @@ class GA():
         
         ''' Write Best Fit Results to File'''
         predict = np.argmax(self.loaded_model.predict(self.pop.reshape(-1, 32, 32, 3)), axis = 1)
-        '''
-        if self.gpu_mode:
-            with tf.device('/gpu:0'):
-                predict = np.argmax(self.loaded_model.predict(self.pop.reshape(-1, 32, 32, 3)), axis = 1)
-        else:
-            with tf.device('/cpu:0'):
-                predict = np.argmax(self.loaded_model.predict(self.pop.reshape(-1, 32, 32, 3)), axis = 1) '''
         combine_fit_pop = [(self.pop_fit[i], self.pop[i], predict[i]) for i in range(self.pop_size)]
         combine_fit_pop.sort(reverse=True, key = lambda x:x[0])
         
@@ -950,17 +708,6 @@ class GA():
                 else:
                     done = True
                 
-        '''
-        f = open('./output/images/' + self.filename + '_fit.csv','w')
-        for i in range(1,15):
-            f.write(str(combine_fit_pop[i][0]) + '\n')
-            best_images = np.vstack([best_images,combine_fit_pop[i][1]])
-        f.close()
-        np.savetxt('./output/images/' + self.filename + '_images.csv', best_images, delimiter=",",fmt='%8.6f',newline='\n')
-        '''
-        
-        #finish_time = datetime.datetime.now()
-        
         ''' Report Results to console '''
         if self.max_img:
             print('\n\n\n\nResults')
@@ -981,16 +728,6 @@ class GA():
             with open(self.out_folder + self.image_folder + (self.best_fit_file % (self.cifar_idx)), 'wb') as f_best:
                 np.save(f_best, best_images[0])
         
-        ''' Put best into database '''
-        '''
-        cnx = MySQL.connect(user='root', passwd='MySQL', host='127.0.0.1', db='adv_exmpl')
-        cursor = cnx.cursor(buffered=True)
-        for i in range(len(best_images)):
-            img_str = ''
-            for j in range(best_images[i].shape[0]):
-                img_str += str(best_images[i][j]) + ' '
-            cursor.callproc('spInsertRow',(self.cifar_idx,int(self.target_label_dig),int(best_labels[i]), img_str)) # best_images[i].tobytes()
-            cnx.commit() '''
             
         ''' Create output '''
         finish_time = datetime.datetime.now()
@@ -1005,62 +742,11 @@ class GA():
             for i in range(len(best_images)):
                 #img_str = '"'
                 img_str = ''
-                ''' Code revised to output only best adversarial example '''
-                '''
-                for j in range(best_images[i].shape[0]):
-                    img_str += str(best_images[i][j]) + ' ' '''
                 img_str = ' '.join([str(i) for i in best_images[i].flatten()])
                 output.append(str(self.cifar_idx) + ', ' + str(self.target_label_dig) + ', ' + str(best_labels[i]) + ', ' + str(best_images_fit[i]) + ',' + str(time_pop_init) + ',' + str(elapse_time) + ', ' + img_str + '\n')
-                #img_str += '"'
-                #out_str = log_name_stripped  + ', ' + str(self.cifar_idx) + ', ' + str(self.target_label_dig) + ', ' + str(best_labels[i]) + ', ' + str(self.max_fit) + ', ' + img_str + '\n'
-                #f_out.write(out_str)
-            #f_out.close()
-        
-        ''' Write to log file '''
-        #finish_time = datetime.datetime.now()
-        #elapse_time = finish_time - start_time
-        #minutes = int(elapse_time.total_seconds()/60)
-        #seconds = elapse_time.total_seconds() - minutes * 60.0
-        #f_out = open(self.out_folder + self.log_name + '.log','a')
-        #f_out.write('MNIST index ' + str(self.cifar_idx) + ' completed at ' + datetime.datetime.strftime(datetime.datetime.now(), '%m/%d/%y %H:%M:%S') + ' in ' + str(minutes) + ':' + str(seconds) + ' with fitness ' + str(self.max_fit) + '\n')
-        #f_out.close()
-        
-        #new_log_name = re.sub('E\d+', 'E' + str(self.cifar_idx), self.log_name)
-        
-        #os.rename(self.out_folder + self.log_name + '.csv', self.out_folder + new_log_name + '.csv')
-        #os.rename(self.out_folder + self.log_name + '.log', self.out_folder + new_log_name + '.log')
-        
-        #self.log_name = new_log_name
         
         return output
         
-    ''' function not referenced in remaining code '''
-    '''
-    def mutate(self):
-        for i in range(len(self.pop)):
-            if random.random() <= self.prob_mut_genome:
-                for j in range(len(self.pop[0])):
-                    if random.random() <= self.prob_mut_pixel:
-                        self.pop[i,j] = self.rand_pixel()
-        return
-    '''
-    
-    ''' function not referenced in remaining code '''
-    '''
-    def crossover(self):
-        keep_best_fit = True
-        new_pop = []
-        for i in range(len(self.pop)):
-            p1, p2 = self.pick_parents()
-            cross_pt = random.randint(0,len(self.pop) - 1)
-            new_pop.append(np.concatenate([self.pop[p1][0:cross_pt], self.pop[p2][cross_pt:]]))
-            
-        self.pop = np.array([p for p in new_pop])
-        
-        if keep_best_fit:
-            self.pop = np.vstack([self.pop[0:len(new_pop)-1], self.max_fit_img])
-        return 
-    '''
 
     def check_target_class(self, img):
         # assumes img.shape = (32,32,3)
@@ -1072,25 +758,11 @@ class GA():
             exit(1)
         
         result = np.argmax(self.loaded_model.predict(img.reshape(1,32,32,3))) == self.target_label_dig
-        '''
-        if self.gpu_mode:
-            with tf.device('/gpu:0'):
-                result = np.argmax(self.loaded_model.predict(img.reshape(1,32,32,3))) == self.target_label_dig
-        else:
-            with tf.device('/cpu:0'):
-                result = np.argmax(self.loaded_model.predict(img.reshape(1,32,32,3))) == self.target_label_dig '''
         return result
     
     def check_target_class_pop(self, pop):
         # Assumes prediction of more than one image
         result = np.argmax(self.loaded_model.predict(pop.reshape(-1,32,32,3)), axis = 1) == self.target_label_dig
-        '''
-        if self.gpu_mode:
-            with tf.device('/gpu:0'):
-                result = np.argmax(self.loaded_model.predict(pop.reshape(-1,32,32,3)), axis = 1) == self.target_label_dig
-        else:
-            with tf.device('/cpu:0'):
-                result = np.argmax(self.loaded_model.predict(pop.reshape(-1,32,32,3)), axis = 1) == self.target_label_dig'''
         return result
     
 """ Function Definitions """
@@ -1103,13 +775,6 @@ def randDig():
     img =  [0.0 if random.random() <= blkProb else 1.0 if random.random() <= whtProb else random.randint(1,255)/255 for i in range(784)]
     return np.array(img)
 
-"""
-def fitness(bench,cand):
-    ssq = 0.0
-    for i in range(len(bench)):
-        ssq += (bench[i] - cand[i])^2
-    return 1/ssq"""
-    
 def fitness(target,cand):
     return 1/np.sum((target - cand)**2, axis = (1,2))
 
@@ -1119,7 +784,6 @@ def fitness(target,cand):
 parser = argparse.ArgumentParser(description='Generate adversarial examples for neural network')
 parser.add_argument('cifar_id', metavar='cifar_id', type=int, help='CIFAR target index')
 parser.add_argument('model_file', metavar='model_file', type=str, help='JSON file for neural network model')
-#parser.add_argument('file_weights', metavar='file_weights', type=str, help='h5 file for neural network weights')
 parser.add_argument('out_folder', metavar='out_folder', type=str, help='file folder for output')
 parser.add_argument('folder', metavar='folder', type=str, help='base file folder for code/input/output subfolders')
 parser.add_argument('fit_type', metavar='fit_type', type=str, help='Fitness function type')
@@ -1157,32 +821,10 @@ prints_img = False
 print(f'output folder: {args.out_folder}')
         
 
-'''
-if os.environ['COMPUTERNAME'] == 'BRADLEYJ-5810':
-    input_folder = 'D:/research/neuralnetworks/code/mnist/adversarial_eg/ga/input/'
-    output_folder = 'D:/Research/NeuralNetworks/code/MNIST/adversarial_eg/ga/cl/output/'
-    prints_img = True
-else:
-    input_folder = '/sciclone/home10/jrbrad/files/mnist/input/'
-    output_folder = '/sciclone/home10/jrbrad/files/mnist/output/'
-    prints_img = False
-'''
-
-    
-#log_name = re.sub('_','-',re.sub('\.json','',model_filename)) + '_' + re.sub('_','-',re.sub('\.h5','',weights_filename)) + '_' + 'pop' + str(pop_size) + '_' + 'mutgenome' + str(int(prob_mut_genome*100)) + '_' + 'mutpix' + str(int(prob_mut_pixel*1000)) + '_' + 'gen' + str(num_gen) + '_' + 'fit-' + fit_type + '_' + 'rand-' + rand_type + '_B' + str(args.start) + 'E' + str(args.start)
-''' Create empty output file '''
-#f_out = open(output_folder + log_name + '.csv','w')
-#f_out.close()
-''' Create empty log file '''
-#f_out = open(output_folder + log_name + '.log','w')
-#f_out.close()
-
 scen_name = re.sub('_','-',re.sub('\.json','',model_filename)) + '_' + 'pop' + str(pop_size) + '_' + 'mutgenome' + str(int(prob_mut_genome*100)) + '_' + 'mutpix' + str(int(prob_mut_pixel*1000)) + '_' + 'gen' + str(num_gen) + '_' + 'fit-' + args.fit_type + '_' + 'rand-' + rand_type
-#  + '_' + re.sub('_','-',re.sub('\.h5','',weights_filename))
 
 ''' Instantiate GA object '''
 print(f'GA args: {pop_size, num_gen, prob_mut_genome, prob_mut_pixel, mut_light_bias, num_gen, args.folder, input_folder, model_filename, output_folder, prints_img, args.fit_type, args.select_type, args.factor_rank_nonlinear, min_mad, max_mad, rand_type, args.gpu_mode, out_only_best}')
-#ga = GA(pop_size, num_gen, prob_mut_genome, prob_mut_pixel, prob_wht, prob_blk, num_gen, i, input_folder, output_folder, loaded_model, prints_img, log_name, fit_type, min_mad, 'mad')
 ga = GA(pop_size, num_gen, prob_mut_genome, prob_mut_pixel, mut_light_bias, num_gen, args.folder, input_folder, model_filename, output_folder, 
         prints_img, args.fit_type, args.select_type, args.factor_rank_nonlinear, min_mad, max_mad, rand_type, args.gpu_mode, out_only_best)
 print('ga initialized')
