@@ -52,16 +52,16 @@ Notes on input arguments:
 To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command (with some example input arguments):
 ><pre><code>python <em>file_path_to_code</em>/ga_cifar_worker.py 0 model2.h5 ../output/ ../input/ L2 rank-linear bright 0.9 False<\code></pre>
 
-
-
-
 Output from this code includes the following items:
-- xxxx
+- In folder `output/images`:
+  - <code><em>scen_i</em>.npy</code>
+- In folder `output`:
+  - L2_rank-linear_bright_0.9__0_1.csv
 
 
 ### Using the Controller Program
 
-The controller program filename is `ga_cifar_controlr.py` and it executes multiple worker files in parallel.  Its input arguments are:
+The controller program filename is `ga_cifar_control.py` and it executes multiple worker files in parallel.  Its input arguments are:
 - `start_id`: an integer from 0 to 59,999 representing the first CIFAR-10 iamge for which an adversarial example is generated
 - `end_id`: an integer from 0 to 59,999 representing the last CIFAR-10 iamge for which an adversarial example is generated
 - `fit_type`: one of `L1, L1-lin, L2, L2-lin, Linf, Linf-lin, mad-recip, mad-linear`
@@ -70,13 +70,16 @@ The controller program filename is `ga_cifar_controlr.py` and it executes multip
 - `factor_rank_nonlinear`: a floating-point value greater than 0.0 but less than 1.0.  This is a required argument even if rank-nonlinear selection is not being used.
 - `num_proc`: number of processors to be used in parallel mode
 - `file_model`: `model2.h5`
-- `folder`: 
-- `gpu_mode`:
-- `mp_mode`: the filepath (and filename) for the pyrrhon executable worker file `ga_mnist_adv_worker_rank-sel.py` or `ga_mnist_adv_worker_rank-sel_cnn.py`
-- `batch_id`: an integer representing the population size
+- `folder`: `../input`, folder for input
+- `folder_out`: `../output``, output folder
+- `gpu_mode`: `True` to use GPU and `False` otherwise.
+- `mp_mode`: xxx
+- `batch_id`: xxx
 
 To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command (with some example input arguments):
-><pre><code>python <em>file_path_to_code</em>/ga_cifar_control.py 0 19 L2 rank-linear rand 0.9 10 covnet.h5 xxx xxx xxx xxx</code></pre>
+><pre><code>python <em>file_path_to_code</em>/ga_cifar_control.py 0 19 L2 rank-linear bright 0.9 10 model2.h5 ../input/ ../output/ True False 0</code></pre>
+
+0 1 L2 rank-linear bright 0.9 1 ga_cifar_worker.py ../input/ ../output/ True False 0
 
 Output from this code includes the following items:
 - xxxx
