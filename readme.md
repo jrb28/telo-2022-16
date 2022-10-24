@@ -1,6 +1,6 @@
 # TELO-2022-16
 
-This repository contains code that was used for a submission to the ACM Transactions of Evolutionary Learning and Optimization (TELO-2022-16) for generating adversarial examples for the MNIST[^mnist] and CIFAR-10 (henceforth, CIFAR) data sets.
+This repository contains code that was used for a submission to the ACM Transactions of Evolutionary Learning and Optimization (TELO-2022-16) for generating adversarial examples for the MNIST[^mnist] and CIFAR-10[^cifar] (henceforth, CIFAR) data sets.
 
 # Computing Environments
 
