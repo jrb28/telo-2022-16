@@ -73,13 +73,11 @@ The controller program filename is `ga_cifar_control.py` and it executes multipl
 - `folder`: `../input`, folder for input
 - `folder_out`: `../output``, output folder
 - `gpu_mode`: `True` to use GPU and `False` otherwise.
-- `mp_mode`: xxx
-- `batch_id`: xxx
+- `mp_mode`: `True` if multiprocessing mode is used, and `False` otherwise.  Must be `False` if `gpu_mode = True`.
+- `batch_id`: used to identify the batch of CIFAR-10 IDs being generated
 
 To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command (with some example input arguments):
 ><pre><code>python <em>file_path_to_code</em>/ga_cifar_control.py 0 19 L2 rank-linear bright 0.9 10 model2.h5 ../input/ ../output/ True False 0</code></pre>
-
-0 1 L2 rank-linear bright 0.9 1 ga_cifar_worker.py ../input/ ../output/ True False 0
 
 Output from this code includes the following items:
 - xxxx
