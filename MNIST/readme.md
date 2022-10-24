@@ -1,13 +1,14 @@
+# MNIST Adversarial Examples 
 This folder contains the code for the generation of adversarial examples for the MNIST data set.
 
-# Subfolders in this Repository
+## Subfolders in this Repository
 
 - `code`: code for generating adversarial examples
 - `input`: input files required to run the code
 - `output`: folder for receiving output
 - `adv_egs`: a static folder that contains the adversarial examples that were reported in in the article.  A `numpy` file is included in this folder for every parameter set that was evaluated and the filename includes shorthand for teh paraemters separated by underscores.
 
-# Computing Environment
+## Computing Environment
 
 We provide below directions to run the MNIST AE code in an Anaconda environment, as we did. The environment included `Python 3.7.7` and `Tensorflow 1.14`.  This particular version of `tensorflow` was used to be consistent with existing code for the Projected Gradient Descent (PGD)[^pgd] method.
 
