@@ -1,6 +1,15 @@
+# CIFAR-10 Adversarial Examples
+
 This folder contains code for generating adversarial examples for the CIFAR-10 data set.
 
-# Computing Environments
+## Subfolders in this Repository
+
+- `code`: code for generating adversarial examples
+- `input`: input files required to run the code
+- `output`: folder for receiving output
+- `adv_egs`: a static folder that contains the adversarial examples that were reported in in the article.  A `numpy` file is included in this folder for every parameter set that was evaluated and the filename includes shorthand for teh paraemters separated by underscores. 
+
+## Computing Environments
 
 The production runs of this code were run on a high-performance computing cluster, although the code in this repository is configured to run on a windows desktop environment.  Creating an equivalent computing environment on a Mac or Linux operating system may permit this code to be run, although we have not tried and and do not guarantee it.  Note that Macs have recently not been equipped with NVIDIA GPUs so that using a GPU to execute this code on a Mac is not feasible.  It is possible to run the code on a CPU although it is slower.  The code was run with Python 3.8.8 within an Anaconda environment that contained Tensorflow 2.7.  
 
@@ -15,7 +24,7 @@ The production runs of this code were run on a high-performance computing cluste
 
 For a GPU to be successfully used, it be `cuda` enabled and, furthermore, graphics drivers must be up to date with the appropriate versions of `cuda` and `cudnn`  installed.   Success with a GPU is also dependent, of course, on the GPU having sufficient memory.
 
-# Executing the Code
+## Executing the Code
 
 Adversarial examples can be generated in two modes: 
 - A "worker" program can be executed from the command line to generate one adversarial for a specified CIFAR-10 image.
@@ -23,7 +32,7 @@ Adversarial examples can be generated in two modes:
 
 The `code`, `input`, and `output` folders are located in this root folder for the `CIFAR` coder.  These code files can be executed on either with a CPU or a GPU by supplying an appropriate input argument as described below.
 
-## Using the Worker Program
+### Using the Worker Program
 
 The filename for the worker program is `ga_cifar_worker.py`.  It can be run from the command line or by specifying command line arguments in an IDE, for example, in Anaconda Spyder by choosing ``Run>Configuration per file`` and then specifying input arguments in the ``Command line options`` dialog field.
 
@@ -49,7 +58,7 @@ Output from this code includes the following items:
 - xxxx
 
 
-## Using the Controller Program
+### Using the Controller Program
 
 The controller program filename is `ga_cifar_controlr.py` and it executes multiple worker files in parallel.  Its input arguments are:
 - `start_id`: an integer from 0 to 59,999 representing the first CIFAR-10 iamge for which an adversarial example is generated
