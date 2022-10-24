@@ -71,7 +71,7 @@ The controller program filename is `ga_cifar_control.py` and it executes multipl
 - `factor_rank_nonlinear`: a floating-point value greater than 0.0 but less than 1.0.  This is a required argument even if rank-nonlinear selection is not being used.
 - `num_proc`: number of processors to be used in parallel mode
 - `file_model`: `model2.h5`
-- `folder`: `../input`, folder for input
+- `folder`: `../input`, input folder
 - `folder_out`: `../output``, output folder
 - `gpu_mode`: `True` to use GPU and `False` otherwise.
 - `mp_mode`: `True` if multiprocessing mode is used, and `False` otherwise.  Must be `False` if `gpu_mode = True`.
