@@ -37,19 +37,22 @@ The filename for the worker program is `ga_cifar_worker.py`, which is located in
 The input arguments for these command line programs are as follows, in this order:
 - `cifar_id`: an integer from 0 to 59,999
 - `model_file`: `model2.h5`
-- `out_folder`: 
+- `out_folder`: ../output/ (Output may be directed to another filepath if desired)
+- 'in_folder`: ../input/  (do not change this specification)
 - `fit_type`: one of `L1, L1-lin, L2, L2-lin, Linf, Linf-lin`
-- `select_type`: one of `proportionate, rank-linear, rank-nonlinear`
+- `select_type`: one of `proportionate`, `rank-linear`, or `rank-nonlinear`
 - `rand_type`: `bright` for brightness mutation
 - `factor_rank_nonlinear`: a floating-point value greater than 0.0 but less than 1.0.  This is a required argument even if rank-nonlinear selection is not being used.
 - `gpu_mode`: either `FF.json` or `CNN.json`
 
-There are fewer input arguments for the CIFAR-10 code compared with the MNIST code because the parameters that were optimized during the initial test runs and that were invariant in the experiments were hard-coded indto the program file.
+Notes on input arguments:
+- There are fewer input arguments for the CIFAR-10 code compared with the MNIST code because the parameters that were optimized during the initial test runs and that were invariant in the experiments were hard-coded indto the program file.
+- If `gpu_mode` is `False`, then `tensorflow 2.0` will automatically use multiprocessing on however many CPU cores are available.
 
 To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command (with some example input arguments):
-><pre><code>python <em>file_path_to_code</em>/ga_cifar_worker.py 0 xxx xxx L2 rank-linear rand 0.9 xxx<\code></pre>
+><pre><code>python <em>file_path_to_code</em>/ga_cifar_worker.py 0 model2.h5 ../output/ ../input/ L2 rank-linear bright 0.9 False<\code></pre>
 
-If `gpu_mode` is `False`, then `tensorflow 2.0` will automatically use multiprocessing on however many CPU cores are available.
+
 
 
 Output from this code includes the following items:
