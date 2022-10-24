@@ -14,5 +14,6 @@ The production runs of this code were run on a high-performance computing cluste
 
 
 
-[^mnist]: See xxx and xxx
-[^cifar]: See xxx
+[^mnist]: See Deng, Li, (2012) "The MNIST Database of Handwritten Digit Images for Machine Learning Research," IEEE Signal Processing Magazine,  29(6), 141-142, DOI: 
+  10.1109/MSP.2012.2211477} and LeCun, Yann and Cortes, Corinna and Burges, Christopher J.C., (2020), "The MNIST Database," [http://yann.lecun.com/exdb/mnist/](http://yann.lecun.com/exdb/mnist)
+[^cifar]: [https://www.cs.toronto.edu/\~kriz/cifar.html](https://www.cs.toronto.edu/\~kriz/cifar.html)
