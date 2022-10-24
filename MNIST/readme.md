@@ -70,8 +70,7 @@ Output from this code includes the following files in the designated output fold
   - <code><em>i</em>_elite_parents.csv</code>: a file where each row has these elements: MNIST ID, generation number, number of offspring whose classifications match the ground truth label of the reference image, which necessitates that one of the offspring's parents be retained in the population for the next generation.
   - <code><em>i</em>_img.npy</code>: a `numpy` file with the adversarial example with the greatest fitness.
   - <code><em>i</em>_pop_stat</code>: a file where each row has these elements: MNIST ID, generation number, maximum population fitness, minimum fitness, mean fitness, median fitness
-- In the root `output` folder:
-  - <code><em>scen_name</em>_timing.txt</code>, where *scen_name* is the scenario name, if the controller program, `` is used.  The file contains the number of seconds required for generating adversarial examples for all of the multiple MNIST images. 
+
 
 
 ### Using the Controller Program
@@ -107,7 +106,8 @@ The same output files are generated with the controller as would be generated wi
 - <code>folder_out</em>/CNN_L2_rank-linear_rand_0.csv</code> xxx
 - <code>folder_out</em>/L2_rank-linear_rand_0.9__0_1.csv</code> xxx
 
-
+- In the root `output` folder:
+  - <code><em>scen_name</em>_timing.txt</code>, where *scen_name* is the scenario name.  The file contains the number of seconds required for generating adversarial examples for all of the multiple MNIST images. 
 
 
 
