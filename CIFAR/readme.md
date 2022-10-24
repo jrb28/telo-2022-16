@@ -9,7 +9,7 @@ This folder contains code for generating adversarial examples for the CIFAR-10 d
 - `output`: folder for receiving output
 - `adv_egs`: a static folder that contains the adversarial examples that were reported in in the article.  A `numpy` file is included in this folder for every parameter set that was evaluated and the filename includes shorthand for teh paraemters separated by underscores. 
 
-## Computing Environments
+## Computing Environment
 
 The production runs of this code were run on a high-performance computing cluster, although the code in this repository is configured to run on a windows desktop environment.  Creating an equivalent computing environment on a Mac or Linux operating system may permit this code to be run, although we have not tried and and do not guarantee it.  Note that Macs have recently not been equipped with NVIDIA GPUs so that using a GPU to execute this code on a Mac is not feasible.  It is possible to run the code on a CPU although it is slower.  The code was run with Python 3.8.8 within an Anaconda environment that contained Tensorflow 2.7.  
 
@@ -22,7 +22,7 @@ The production runs of this code were run on a high-performance computing cluste
   - Finally, execute this command in the Anaconda Command Prompt with the environment of your choice:
     - <pre><code>conda env create -f <em>path_to_file</em>/tf2.yml</code></pre>
 
-For a GPU to be successfully used, it be `cuda` enabled and, furthermore, graphics drivers must be up to date with the appropriate versions of `cuda` and `cudnn`  installed.   Success with a GPU is also dependent, of course, on the GPU having sufficient memory.
+For a GPU to be successfully used, it must be `cuda` enabled and, furthermore, graphics drivers must be up to date with the appropriate versions of `cuda` and `cudnn`  installed.   Success with a GPU is also dependent, of course, on the GPU having sufficient memory.
 
 ## Executing the Code
 
@@ -30,11 +30,9 @@ Adversarial examples can be generated in two modes:
 - A "worker" program can be executed from the command line to generate one adversarial for a specified CIFAR-10 image.
 - A "controller" program can be run from the command line to execute the "worker" program multiple times for a sequence of MNIST images.  The controller program uses multiprocessing.
 
-The `code`, `input`, and `output` folders are located in this root folder for the `CIFAR` coder.  These code files can be executed on either with a CPU or a GPU by supplying an appropriate input argument as described below.
-
 ### Using the Worker Program
 
-The filename for the worker program is `ga_cifar_worker.py`.  It can be run from the command line or by specifying command line arguments in an IDE, for example, in Anaconda Spyder by choosing ``Run>Configuration per file`` and then specifying input arguments in the ``Command line options`` dialog field.
+The filename for the worker program is `ga_cifar_worker.py`, which is located in the `code` folder.  It can be run from the command line or by specifying command line arguments in an IDE, for example, in Anaconda Spyder by choosing ``Run>Configuration per file`` and then specifying input arguments in the ``Command line options`` dialog field.
 
 The input arguments for these command line programs are as follows, in this order:
 - `cifar_id`: an integer from 0 to 59,999
@@ -51,7 +49,7 @@ There are fewer input arguments for the CIFAR-10 code compared with the MNIST co
 To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command (with some example input arguments):
 ><pre><code>python <em>file_path_to_code</em>/ga_cifar_worker.py 0 xxx xxx L2 rank-linear rand 0.9 xxx<\code></pre>
 
-If `gpu_mode` is `False`, then `tensorflow 2.0` will automatically use multiprocessing on however many CPUU cores are available.
+If `gpu_mode` is `False`, then `tensorflow 2.0` will automatically use multiprocessing on however many CPU cores are available.
 
 
 Output from this code includes the following items:
