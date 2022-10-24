@@ -71,7 +71,7 @@ Output from this code includes the following files in the designated output fold
   - <code><em>i</em>_img.npy</code>: a `numpy` file with the adversarial example with the greatest fitness.
   - <code><em>i</em>_pop_stat</code>: a file where each row has these elements: MNIST ID, generation number, maximum population fitness, minimum fitness, mean fitness, median fitness
 - In the root `output` folder:
-  - <code><em>scen_name</em>_timing.txt<code>, where *scen_name* is the scenario name, if the controller program, `` is used.  The file contains the number of seconds required for generating adversarial examples for all of the multiple MNIST images. 
+  - <code><em>scen_name</em>_timing.txt</code>, where *scen_name* is the scenario name, if the controller program, `` is used.  The file contains the number of seconds required for generating adversarial examples for all of the multiple MNIST images. 
 
 
 ### Using the Controller Program
