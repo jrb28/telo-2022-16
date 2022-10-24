@@ -51,7 +51,6 @@ Notes on input arguments:
 
 To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command (with some example input arguments):
 ><pre><code>python <em>file_path_to_code</em>/ga_cifar_worker.py 0 model2.h5 ../output/ ../input/ L2 rank-linear bright 0.9 False<\code></pre>
-
 Output from this code includes the following items:
 - In folder `output/images`:
   - <code><em>scen_i</em>.npy</code>
