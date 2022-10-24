@@ -25,7 +25,7 @@ import json
 #def run_this(q, mnist_id, model_file, weights_file, out_folder, folder):
 def run_this(q, mnist_id, model_file, out_folder, folder, fit_type, select_type, rand_type, factor_rank_nonlinear, gpu_mode):
     #path = pathlib.Path(__file__).parent.absolute()
-    result = subprocess.run(['python', folder + 'code/ga/ga_cifar_worker.py', str(mnist_id), model_file, out_folder, folder, 
+    result = subprocess.run(['python', 'ga_cifar_worker.py', str(mnist_id), model_file, out_folder, folder, 
                              fit_type, select_type, rand_type, str(factor_rank_nonlinear), gpu_mode], 
                             stdout=subprocess.PIPE)
     result = result.stdout.decode('utf-8')
@@ -33,7 +33,7 @@ def run_this(q, mnist_id, model_file, out_folder, folder, fit_type, select_type,
     return result
 
 def run_this_no_q(mnist_id, model_file, out_folder, folder, fit_type, select_type, rand_type, factor_rank_nonlinear, gpu_mode):
-    result = subprocess.run(['python', folder + 'code/ga/ga_cifar_worker.py', str(mnist_id), model_file, out_folder, folder, 
+    result = subprocess.run(['python', 'ga_cifar_worker.py', str(mnist_id), model_file, out_folder, folder, 
                              fit_type, select_type, rand_type, str(factor_rank_nonlinear), gpu_mode], 
                             stdout=subprocess.PIPE)
     result = result.stdout.decode('utf-8')
