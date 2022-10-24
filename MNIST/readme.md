@@ -22,39 +22,37 @@ We provide below directions to run the MNIST AE code in an Anaconda environment,
   - Finally, execute this command in the Anaconda Command Prompt with the environment of your choice:
     - <pre><code>conda env create -f <em>path_to_file</em>/keras-gpu_tf14.yml</code></pre>
 
-For a GPU to be successfully used, it be cuda enabled and, furthermore, graphics drivers must be up to date with the appropriate versions of `cuda` and `cudnn`  installed.  Success with a GPU is also dependent, of course, on the GPU having sufficient memory.
+For a GPU to be successfully used, it must be cuda enabled and, furthermore, graphics drivers must be up to date with the appropriate versions of `cuda` and `cudnn`  installed.  Success with a GPU is also dependent, of course, on the GPU having sufficient memory.
 
 
-
+## Executing the Code
 
 Adversarial examples can be generated in two modes: 
-
 - A "worker" program can be executed from the command line to generate one adversarial for a specified MNIST image.
 - A "controller" program can be run from the command line to execute the "worker" program multiple times for a sequence of MNIST images.  The controller program uses multiprocessing.
 
-The `code` and `input` folders are located in the `MNIST` folder in this root folder.
 
 ### Using the Worker Program
 
-Two worker programs exist, one for Feedforward Neural Networks  (FFs) and a separate program for Convolutional Neural Networks (CNNs):
+Two worker programs exist in the `code` folder, one for Feedforward Neural Networks (FFs) and a separate program for Convolutional Neural Networks (CNNs):
 - FF: `ga_mnist_adv_worker_rank-sel.py`
 - CNN: `ga_mnist_adv_worker_rank-sel_cnn.py`
 The programs can be run from the command line or by specifying command line arguments in an IDE, for example, in Anaconda Spyder by choosing ``Run>Configuration per file`` and then specifying input arguments in the ``Command line options`` dialog field.
 
 The input arguments for these command line programs are as follows, in this order:
 - `mnist_id`: an integer from 0 to 59,999
-- `fit_type`: one of `L1, L1-lin, L2, L2-lin, Linf, Linf-lin, mad-recip, mad-linear`
-- `select_type`: one of `proportionate, rank-linear, rank-nonlinear`
+- `fit_type`: one of `L1`, `L1-lin`, `L2`, `L2-lin`, `Linf`, `Linf-lin`, `mad-recip`, or `mad-linear`
+- `select_type`: one of `proportionate`, `rank-linear`, or `rank-nonlinear`
 - `rand_type`: either `rand` or `mad`
-- `factor_rank_nonlinear`: a floating-point value greater than 0.0 but less than 1.0.  This is a required argument even if rank-nonlinear selection is not being used.
-- `file_model`: either `FF.json` or `CNN.json` (Note: the corresponding weights file must be used.)
-- `file_weights`: either `FF.h5` or `CNN.h5` (Note: the corresponding model file must be used.)
+- `factor_rank_nonlinear`: a floating-point value greater than 0.0 but less than 1.0.  This is a required argument even if rank-nonlinear selection is not being used.  Results reported in the article used 0.9.
+- `file_model`: either `FF.json` or `CNN.json` (Note: the corresponding weights file and code file must be used .)
+- `file_weights`: either `FF.h5` or `CNN.h5` (Note: the corresponding model file and code file must be used.)
 - `out_folder`: ../output/
 - `in_folder`: ../input/
-- `pop_size`: an integer representing the population size
-- `prob_mut_genome`: probability that an image is mutated (0.7 in our experiments
+- `pop_size`: an integer representing the population size.  The article reports results using 1000.
+- `prob_mut_genome`: probability that an image is mutated (0.7 in our experiments)
 - `prob_mut_pixel`: the probability of any pixel being mutated, if an image is mutated (0.00255 in our experiments)
-- `num_gen`: an integer representing the number of generations to be executed
+- `num_gen`: an integer representing the number of generations to be executed (2000 in our experiments)
 - `scen_name`: A scenario name to be associated with this set of parameters.
 
 Notes on these parameters:
