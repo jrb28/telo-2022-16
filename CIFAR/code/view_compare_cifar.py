@@ -22,7 +22,7 @@ indices = {v:i for i,v in enumerate(indices)}
 scen = 'model2_L2_rank-linear_bright_bf_'
 
 # img_id = CIFAR-10 ID
-img_id = 593
+img_id = 977
 
 adv_eg = np.load(f'../output/images/{scen}{str(img_id)}.npy').reshape(32,32,3)
 cifar = img_cifar[indices[img_id]].reshape(32,32,3)
