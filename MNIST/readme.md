@@ -79,9 +79,9 @@ Output from this code includes the following files in the designated output fold
 
 ### Using the Controller Program
 
-The controller program filename is `ga_control_rank_sel.py` and it executes multiple worker files in parallel.  Its input arguments are:
-- `start_id`: an integer from 0 to 59,999 representing the first MNIST iamge for which an adversarial example is generated
-- `end_id`: an integer from 0 to 59,999 representing the last MNIST image for which an adversarial example is generated
+The controller program filename is `ga_control_rank_sel.py` and it executes multiple worker files in parallel.  It generates adversarial examples for 500 randomly selected MNIST IDs.  Its input arguments are:
+- `start_id`: an integer from 0 to 499 representing the starting index from the 500 random MNIST IDs for which adversarial examples are generated
+- `end_id`: an integer from 0 to 499 representing the last index from the 500 random MNIST IDs for which adversarial examples are generated (must be $\geq$ `start_id`)
 - `fit_type`: one of `L1, L1-lin, L2, L2-lin, Linf, Linf-lin`
 - `select_type`: one of `proportionate, rank-linear, rank-nonlinear`
 - `rand_type`: either `rand` or `mad`
