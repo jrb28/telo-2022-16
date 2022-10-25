@@ -86,7 +86,7 @@ The controller program filename is `ga_control_rank_sel.py` and it executes mult
 - `select_type`: one of `proportionate, rank-linear, rank-nonlinear`
 - `rand_type`: either `rand` or `mad`
 - `factor_rank_nonlinear`: a floating-point value greater than 0.0 but less than 1.0.  This is a required argument even if rank-nonlinear selection is not being used.
-- `mp_mode`: (multiprocessing mode)  multiprocessing is used if `True` and not if `False`.  This argument must be set to `False` if a GPU is used because GPUs do not support multiprocessing.  If `True`, then `num_proc` argument is ignored.
+- `mp_mode`: (multiprocessing mode)  multiprocessing is used if `True` and not if `False`.  This argument must be set to `False` if a GPU is used because GPUs do not support multiprocessing.  If `False`, then `num_proc` argument is ignored.
 - `num_proc`: number of processors to be used in parallel mode (_Note: a value greater than one cannot be used with a GPU as GPUs do not support multiprocessing.  Using `num_proc` > 1 works only with multiple-core CPUs._)
 - `file_model`: either `FF.json` or `CNN.json`
 - `file_weights`: either `FF.h5` or `CNN.h5`
