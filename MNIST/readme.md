@@ -93,10 +93,10 @@ The controller program filename is `ga_control_rank_sel.py` and it executes mult
 - `folder_in`: ../input/
 - `folder_out`: ../output/
 - `filepath_code`: the filepath (and filename) for the python executable worker file.  If the folder structure of this repo is maintained, then use either `ga_mnist_adv_worker_rank-sel.py` or `ga_mnist_adv_worker_rank-sel_cnn.py`, whichever is consistent with the `file_model` and `file_weights` arguments. 
-- `pop_size`: an integer representing the population size
-- `prob_mut_genome`: probability that an image is mutated (0.7 in our experiments
+- `pop_size`: an integer representing the population size (1000 in our experiments)
+- `prob_mut_genome`: probability that an image is mutated (0.7 in our experiments)
 - `pixel_mut_per_phenotype`: the expected number of pixels to be mutated in an image, if an image is mutated (2.0 in our experiments)
-- `num_gen`: an integer representing the number of generations to be executed
+- `num_gen`: an integer representing the number of generations to be executed (1000 in our experiments)
 
 Notes on these parameters:
 - See notes above for the worker program regarding the arguments `folder_in` and `folder_out`.
