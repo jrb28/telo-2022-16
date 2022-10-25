@@ -105,13 +105,11 @@ Notes on these parameters:
 To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command (with some example input arguments):
 ><pre><code>python <em>file_path_to_code</em>/ga_control_rank_sel.py 0 19 L2 rank-linear rand 0.9 10 FF.json FF.h5 xxx xxx xxx 1000 1.0 2  2000</code></pre>
 
-The same output files are generated with the controller as would be generated with the worker program used to create a single adversarial example and, in addition, these files are created:
+The same output files are generated with the controller as would be generated with the worker program used to create a single adversarial example and, in addition, these files are created in the `../output/` folder:
 - <code><em>folder_out</em>/CNN_1000_25_70_2_L2_rank-linear_rand_timing.txt</code>, for example, where in this case `CNN_1000_25_70_2_L2_rank-linear_rand` are the genetic algorithm parameters  joined by underscores.  This file documents execution time.
 - <code><em>folder_out</em>/CNN_L2_rank-linear_rand_0.csv</code>, for example, where `CNN_L2_rank-linear_rand` indicate the genetic algorithm parameters and `0` is an index that is incremented by 1 each time a new batch is run for the same combination of parameters.  this file documents, in each row, the parameter set, the MNIST index, the reference MNIST label, the adversarial classification, the `mad-linear` fitness value if that fitness function is used, the fitness of the best adversarial example, the execution time, and a string indicating the MNIST adversarial example.
 - <code><em>folder_out</em>/L2_rank-linear_rand_0.9__0_1.csv</code>, for example is execution time for MNIST images with indices starting with `0` and ending with `1`, where `L2_rank-linear_rand_0.9` are the genetic algorithm parameters.
-
-- In the root `output` folder:
-  - <code><em>scen_name</em>_timing.txt</code>, where *scen_name* is the scenario name.  The file contains the number of seconds required for generating adversarial examples for all of the multiple MNIST images. 
+- <code><em>scen_name</em>_timing.txt</code>, where *scen_name* is the scenario name.  The file contains the number of seconds required for generating adversarial examples for all of the multiple MNIST images. 
 
 
 
