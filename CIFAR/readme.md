@@ -7,7 +7,7 @@ This folder contains code for generating adversarial examples for the CIFAR-10 d
 - `code`: code for generating adversarial examples
 - `input`: input files required to run the code
 - `output`: folder for receiving output
-- `adv_egs`: a static folder that contains the adversarial examples that were reported in in the article.  A `numpy` file is included in this folder for every parameter set that was evaluated and the filename includes shorthand for teh paraemters separated by underscores. 
+- `adv_egs`: a static folder that contains the adversarial examples that were reported in in the article.  A `numpy` file is included in this folder for every parameter set that was evaluated and the filename includes shorthand for the parameters separated by underscores. 
 
 ## Computing Environment
 
@@ -48,6 +48,8 @@ The input arguments for these command line programs are as follows, in this orde
 Notes on input arguments:
 - There are fewer input arguments for the CIFAR-10 code compared with the MNIST code because the parameters that were optimized during the initial test runs and that were invariant in the experiments were hard-coded indto the program file.
 - If `gpu_mode` is `False`, then `tensorflow 2.0` will automatically use multiprocessing on however many CPU cores are available.
+
+The article reports that the population was initialized with batches of candidate adversarial examples that were generated in batch sizes of 50,000.  While this was the case for the adversarial examples reported on in the article, the code in this repository usese batch sizes of 5,000 to reduce memory consumption.
 
 To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command (with some example input arguments):
 
