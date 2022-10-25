@@ -86,7 +86,7 @@ Output from this code includes the following items:
   - <code><em>scen_i</em>.npy</code>: a `numpy` file containing the adversarial example for scenario name `scen`, which is created by the controller program to be the parameters joined with underscores, for CIFAR-10 image  _i_.
 - In folder `output`:
   - `L2_rank-linear_bright_0.9__0_1.csv`, for example, where `L2_rank-linear_bright_0.9__` specifies the genetic algorithm parameters and, here, `0_1` indicates the starting and ending CIFAR-10 indices.
-  - `0.csv' where, here, `0` stands for the `batch_id` specified in the input arguments. This files contains these output fields:
+  - `0.csv` where, here, `0` stands for the `batch_id` specified in the input arguments. This file contains these output fields:
     - Scenario name
     - CIFAR-10 ID
     - Reference CIFAR-10 image classification
