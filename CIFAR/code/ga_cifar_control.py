@@ -65,7 +65,7 @@ if __name__ == '__main__':
     
     time_start = time.time()
     
-    rand_indices = False
+    rand_indices = True
     mp_mode = str_to_bool(args.mp_mode)
     
     ''' Select consecutive or random indices '''

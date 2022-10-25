@@ -659,7 +659,7 @@ class GA():
             self.pop = self.pop_gen_mut()
             with open(self.in_folder + 'pop_' + str(self.cifar_idx) + '.npy', 'wb') as f:
                 np.save(f, self.pop)
-        print('population initialized')
+        #print('population initialized')
         
         self.compute_lin_fit_coeff()
         self.fitness()
@@ -672,7 +672,7 @@ class GA():
         
         for i in range(self.num_gen):
             self.gen = i
-            print(f'Generation {i}')
+            #print(f'Generation {i}')
             if self.max_img:
                 print('Generation ' + str(i+1) + ':  ', end='')
             self.next_gen_w_contraint()
@@ -797,7 +797,7 @@ args = parser.parse_args()
 
 ''' Hide GPU from tensorflow '''
 if not str_to_bool(args.gpu_mode):
-    print('Hello: GPU is hidden')
+    #print('Hello: GPU is hidden')
     tf.config.experimental.set_visible_devices([], 'GPU')
 
 
@@ -818,18 +818,18 @@ out_only_best = True
 input_folder = args.folder #+  'data/' #'/sciclone/home10/jrbrad/files/mnist/input/'
 output_folder = args.out_folder #'/sciclone/home10/jrbrad/files/mnist/output/'
 prints_img = False
-print(f'output folder: {args.out_folder}')
+#print(f'output folder: {args.out_folder}')
         
 
 scen_name = re.sub('_','-',re.sub('\.json','',model_filename)) + '_' + 'pop' + str(pop_size) + '_' + 'mutgenome' + str(int(prob_mut_genome*100)) + '_' + 'mutpix' + str(int(prob_mut_pixel*1000)) + '_' + 'gen' + str(num_gen) + '_' + 'fit-' + args.fit_type + '_' + 'rand-' + rand_type
 
 ''' Instantiate GA object '''
-print(f'GA args: {pop_size, num_gen, prob_mut_genome, prob_mut_pixel, mut_light_bias, num_gen, args.folder, input_folder, model_filename, output_folder, prints_img, args.fit_type, args.select_type, args.factor_rank_nonlinear, min_mad, max_mad, rand_type, args.gpu_mode, out_only_best}')
+#print(f'GA args: {pop_size, num_gen, prob_mut_genome, prob_mut_pixel, mut_light_bias, num_gen, args.folder, input_folder, model_filename, output_folder, prints_img, args.fit_type, args.select_type, args.factor_rank_nonlinear, min_mad, max_mad, rand_type, args.gpu_mode, out_only_best}')
 ga = GA(pop_size, num_gen, prob_mut_genome, prob_mut_pixel, mut_light_bias, num_gen, args.folder, input_folder, model_filename, output_folder, 
         prints_img, args.fit_type, args.select_type, args.factor_rank_nonlinear, min_mad, max_mad, rand_type, args.gpu_mode, out_only_best)
-print('ga initialized')
+#print('ga initialized')
 ga.new(args.cifar_id)
-print('ga.new() complete')
+#print('ga.new() complete')
 result = ga.evolve()
 for i in range(len(result)):
     result[i] = scen_name + ',' + result[i]
