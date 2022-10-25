@@ -54,7 +54,7 @@ The input arguments for these command line programs are as follows, in this orde
 - `prob_mut_genome`: probability that an image is mutated (0.7 in our experiments)
 - `prob_mut_pixel`: the probability of any pixel being mutated, if an image is mutated (0.00255 in our experiments)
 - `num_gen`: an integer representing the number of generations to be executed (2000 in our experiments)
-- `scen_name`: A scenario name to be associated with this set of parameters.
+- `scen_name`: a scenario name to be associated with this set of parameters
 
 Notes on these parameters:
 - The `folder_in` specified is consistent with the file folder structure in this repo and it permits the appropriate input files to be found.  Do not use a different argument.
