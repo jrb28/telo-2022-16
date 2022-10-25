@@ -57,7 +57,7 @@ To execute from the command line, open a command  prompt that recognizes the pat
 
 Output from this code includes the following items:
 - In folder `output/images`:
-  - <code><em>scen_i</em>.npy</code>: a `numpy` file containing the adversrial example for scenario name as specified in the input arguments for CIFAR-10 image _i_.
+  - <code><em>scen_i</em>.npy</code>: a `numpy` file containing the adversrial example for scenario name as specified in the input arguments for CIFAR-10 image `i`.
 
 
 
@@ -83,7 +83,7 @@ To execute from the command line, open a command  prompt that recognizes the pat
 
 Output from this code includes the following items:
 - In folder `output/images`:
-  - <code><em>scen_i</em>.npy</code>: a `numpy` file containing the adversarial example for scenario name `scen`, which is created by the controller program to be the parameters joined with underscores, for CIFAR-10 image  _i_.
+  - <code><em>scen_i</em>.npy</code>: a `numpy` file containing the adversarial example for scenario name `scen`, which is created by the controller program to be the parameters joined with underscores, for CIFAR-10 image  `i`.
 - In folder `output`:
   - `L2_rank-linear_bright_0.9__0_1.csv`, for example, where `L2_rank-linear_bright_0.9__` specifies the genetic algorithm parameters and, here, `0_1` indicates the starting and ending CIFAR-10 indices.
   - `0.csv` where, here, `0` stands for the `batch_id` specified in the input arguments. This file contains these output fields:
