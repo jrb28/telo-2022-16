@@ -70,7 +70,7 @@ if __name__ == '__main__':
     
     ''' Select consecutive or random indices '''
     if rand_indices:
-        with open(args.folder + 'data/randCIFAR.json', 'r') as f:
+        with open(args.folder + '/randCIFAR.json', 'r') as f:
             indices = json.load(f)
             indices = indices[args.start_id : args.end_id + 1]
             num_progs = len(indices)

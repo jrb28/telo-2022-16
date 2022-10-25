@@ -13,7 +13,7 @@ See LICENSE.md in the repository root folder for the terms of this license
 
 '''
 Genetic algorithm code for evolving adversarial examples for CIFAR-10 images
-  - the ga_control.py program calls this program as a command line program and among the arguments
+  - The ga_control.py program calls this program as a command line program and among the arguments
     it sends is an ID for a CIFAR wmage for which this program will evolve an adversarial example
   - The population images are in numpy arrays of shape (pop_size, 3072) and the CIFAR traget images is of shape (3072,)
     * Cifar images are 32x32 for a total of 1024 pixels, with RGB components for each pixel, implying 3072 wlwmwnts for each image
