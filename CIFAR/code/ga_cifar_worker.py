@@ -21,23 +21,14 @@ Genetic algorithm code for evolving adversarial examples for CIFAR-10 images
       the next 1024 values are green intensities and the final 1024 values are blue intensities.
 '''
 
-#import matplotlib.pyplot as plt
 from matplotlib.colors import rgb_to_hsv
 from matplotlib.colors import hsv_to_rgb
-#from numba import njit
 import random
-
-#from keras import models
 import tensorflow as tf
 from tensorflow.keras import models
 from tensorflow.keras.datasets import cifar10
-#from keras.utils import to_categorical
-#from keras.datasets import mnist
-
 import numpy as np
-#import json
 import argparse
-#import os
 import datetime
 import re
 from sys import exit
@@ -61,11 +52,6 @@ class GA():
     def __init__(self, pop_size, num_gen, prob_mut_genome, prob_mut_pixel, mut_light_bias, gen, folder_base, input_folder, model_filename, 
                  output_folder, max_img, fit_type='mad-linear', select_type='rank-linear', factor_rank_nonlinear=0.9, 
                  min_mad = 0.1, max_mad = 0.15, rand_mode = 'rand', gpu_mode='True', out_only_best=True):
-        
-        ''' Import matplotlib if graphs to be shwon '''
-        #if max_img:
-        #    import matplotlib.pyplot as plt
-        
         
         ''' Set general parameters '''
         self.pop_size = pop_size
@@ -148,11 +134,7 @@ class GA():
                 - pop_fit() requires a population shape of (-1,3072)
             '''
         
-        ''' Note that the pixels values loaded in the statement below are np.uint8 integers '''
-        ''' load CIFAR from file '''
-        ''' Replace loading of resident files with download from tensorflow.keras.datasets 
-        self.train_images = np.load(input_folder + 'cifar_train_images.npy')
-        self.train_labels = np.load(input_folder + 'cifar_train_labels.npy') '''
+        ''' load CIFAR data set '''
         ((self.train_images,self.train_labels),(_,_)) = cifar10.load_data()
         
         if self.max_img:
@@ -206,64 +188,6 @@ class GA():
         
         self.log_filename = 'log_adv_eg_' + self.fit_type + '_' + self.select_type + '_' + self.rand_mode + '_' + str(self.cifar_idx) + '.csv'
         
-        ''' Read/Create random population '''
-        ''' Code for generating initial populations by random (rand) and mad methods have been commented 
-            out because of their inferiority to the brightness (bright) method '''
-        ''' Moved code to evolve() '''
-        '''
-        if self.img_read:
-            with open(self.image_folder + (self.img_dump_file % self.cifar_idx), 'rb') as f_in:
-                self.pop = np.load(f_in)
-                self.pop_size = self.pop.shape[0]
-        #elif self.rand_mode == 'bright':
-        else:
-            self.pop = self.pop_gen_mut() '''
-        
-        
-        '''
-        elif self.rand_mode == 'rand':
-            self.pop = np.array([self.rand_mnist_w_constraint() for i in range(self.pop_size)], dtype=np.float32)
-        elif self.rand_mode == 'mad':
-            if self.max_img:
-                print('Generating initial population... ', end = '')
-            # Create empty population 
-            self.pop = np.array([], dtype = np.float32).reshape(0, self.num_pixels, self.num_rgb)
-            
-            # Iteratively add to population while culling out members with same predicted label as target images 
-            while self.pop.shape[0] < self.pop_size:
-                pop_add = self.train_images[np.random.randint(0, self.train_images_num - 1, self.pop_size * self.num_pixels).reshape(self.pop_size, self.num_pixels), np.arange(self.num_pixels), :].astype(np.float32)/255
-                pop_add_labels = self.check_target_class_pop(pop_add)
-                self.pop = np.concatenate((self.pop, pop_add[np.invert(pop_add_labels)]))
-            self.pop = self.pop[:self.pop_size]
-            if self.max_img:
-                print('complete.')
-        else:
-            if self.max_img:
-                print('Infeasible population initializtion.  Population not created.')
-        '''
-        
-        ''' Fitness now computed with fitness() helper function '''
-        '''
-        if self.fit_type == 'mad':
-            self.pop_fit = self.fit_mad()
-        elif self.fit_type == 'ssd':
-            self.pop_fit = self.fit_ssd()
-        else:
-            if self.max_img:
-                print('Invalid fit_type in GA.__init__')
-            exit(1) '''
-        
-        ''' generate initial population '''
-        ''' moved to evolve() '''
-        '''
-        self.compute_lin_fit_coeff()
-        self.fitness()
-        self.compute_c_o_prob()
-        self.max_fit = 0
-        self.get_max_fit(self.max_img)
-        if self.max_img:
-            print('Random population created')      '''
-        
     
     def fitness(self):
         if self.fit_type == 'mad-linear':
@@ -289,22 +213,16 @@ class GA():
     
     def fit_L_inf(self):
         return 1/np.max(np.abs(self.pop.reshape(self.pop_size, self.num_pixels_rgb) - self.target_img), axis=1)
-        #return 1/np.max(np.abs(np.subtract(self.pop, self.target_img)), axis=1)
-
+        
     def fit_L_inf_lin(self):
         return self.Linf_max - np.max(np.abs(self.pop.reshape(self.pop_size, self.num_pixels_rgb) - self.target_img), axis=1) + 0.001
         
     def fit_L1(self):
          return 1/np.sum(np.abs(np.subtract(self.pop.reshape(self.pop_size, self.num_pixels_rgb), self.target_img)), axis=1)
-         #return 1/np.sum(np.abs(np.subtract(self.pop, self.target_img)), axis=1)
 
     def fit_L1_lin(self):
          return self.L1_max - np.sum(np.abs(np.subtract(self.pop.reshape(self.pop_size, self.num_pixels_rgb), self.target_img)), axis=1)
 
-    #def fit_mad(self):
-    #    return 1/np.sum(np.abs(self.pop - self.target_img)/self.mad[self.target_label_dig], axis=1)
-        #return 1/np.sum(np.divide(np.abs(np.subtract(self.pop, self.target_img)), self.mad[self.target_label_dig]), axis=1)
-        
     def fit_mad(self):
         return 1/np.sum(np.divide(np.abs(np.subtract(self.pop.reshape(self.pop_size, self.num_pixels_rgb), self.target_img)), self.mad[self.target_label_dig]), axis=1)
         
@@ -314,9 +232,6 @@ class GA():
     def fit_lin_mad(self):
         return (self.mad_max - np.sum(np.abs(self.pop.reshape(self.pop_size, self.num_pixels_rgb) - self.target_img)/self.mad[self.target_label_dig], axis=1))
         
-    #def fit_ssd(self):
-    #    return 1/np.sum((self.pop - self.target_img)**2.0, axis = 1)  #1/np.sum(np.power(np.subtract(self.pop, self.target_img), 2.0), axis = 1)
-    
     def fit_ssd_lin(self):
         return self.L2_max - np.sum((self.pop.reshape(self.pop_size, self.num_pixels_rgb) - self.target_img)**2.0, axis = 1)  #1/np.sum(np.power(np.subtract(self.pop, self.target_img), 2.0), axis = 1)
     
@@ -345,10 +260,6 @@ class GA():
         ''' Parameters '''
         num_reps = 5000  # Number of mutated images to generate for each number of changed pixels, for each iteration, for each image
         factor = [1.1, 0.8]  # Factors to increase or reduce the amount by which hues are adjusted in mutant pixels
-        #num_adv_eg_goal = self.pop_size  # Number o of adv egs to generate per image
-        #num_rng = [200, 1667]  # Thresholds for number of adv egs found in each iteration.  If the number of images found
-                               # are below the lower threshold then hue adjustment in mutants is increased and above the 
-                               # upper threshold the adjustment is reduced
         num_reset_max = 4      # Maximum number of iteration counter resets before the found adv egs are accepted.
                                # This is needed when the neural network misidentifies an image and virtually all 
                                # adv egs are mislabeled.
@@ -356,12 +267,6 @@ class GA():
         num_iter = 0    # counter for iterations for each image
         num_reset = 0   # counter for number of iteration counter resets due to finding an extraordinrily large number of adv egs
         adv_eg = np.empty((0,1024,3)) # initialize repository for adv egs
-        # Last scale revision due to removing bias toward darker pixels
-        #   New scale values were increased to permit achieving a totally dark/light pixel for a 1-pixel change, consistent
-        #     with the prior dark bias 
-        # Iteration 2: [1.452   1.089   0.847   0.605   0.605   0.4235  0.363   0.27225 0.1815 ]
-        # Iteration 3: [1.5972   1.1979   0.9317   0.6655   0.6655   0.46585  0.3993   0.299475 0.19965 ]
-        # [1.8, 1.5, 1.4, 1.0, 1.0, 0.7, 0.6, 0.45, 0.3]
         scale = np.array([1.6, 1.3, 1.1, 0.9, 0.8, 0.7, 0.6, 0.45, 0.3]) #[1.2, 0.9, 0.7, 0.5, 0.5, 0.35, 0.3, 0.225, 0.15]  #[1.2, 0.9, 0.7, 0.5, 0.5, 0.35, 0.3, 0.225, 0.21, 0.175, 0.15, 0.175]
         num_pix_mut = np.array([1, 2, 3, 4, 5, 6, 10, 50, 100]) #[1, 2, 3, 4, 5, 6, 10, 50, 200, 500, 750, 1000]
         self.num_pix_mut_expand = False
@@ -432,12 +337,6 @@ class GA():
                     f.write('%d, %d, %d, %f\n' % (self.cifar_idx, num_iter, num_adv_eg_now, scale[0]))
             
             ''' Adjust brightness mutation factors if number of adv egs found is too few or too many '''
-            '''
-            if num_adv_eg_now < num_rng[0]:
-                scale *= factor[0]
-            elif num_adv_eg_now > num_rng[1]:
-                scale *= factor[1]
-            '''
             scale[num_adv_eg_found > self.pop_size /num_pix_mut.shape[0]] *= factor[1]
             scale[num_adv_eg_found < 0.2 * self.pop_size /num_pix_mut.shape[0]] *= factor[0]
             if self.max_img:
@@ -508,13 +407,6 @@ class GA():
                 print('Target Image')
                 self.show_image(self.target_img.reshape(32,32,3))
                 best_fit = np.argmax(self.loaded_model.predict(self.max_fit_img.reshape(-1, 32, 32, 3)))
-                '''
-                if self.gpu_mode:
-                     with tf.device('/gpu:0'):
-                         best_fit = np.argmax(self.loaded_model.predict(self.max_fit_img.reshape(-1, 32, 32, 3)))
-                else:
-                    with tf.device('/cpu:0'):
-                         best_fit = np.argmax(self.loaded_model.predict(self.max_fit_img.reshape(-1, 32, 32, 3))) '''
                 print('Pop. Best Fit. Classification: ' + str(best_fit), '   Fitness: %f' % (self.max_fit), '   Num. pixels diff.: %d' % ((np.abs(self.target_img.reshape(self.num_pixels,self.num_rgb) - self.pop[fit_ind_gen]) > self.thres_pix_diff).sum(),))
                 print('Least fit fitness: %f' % (self.pop_fit[-1],))
                 self.show_image(self.max_fit_img)
@@ -615,11 +507,8 @@ class GA():
             best_ind[digits[i]] = pop_fit_here[i][1]
         # Safeguard in case any of the population have been mutated into the target class
         best_ind[self.target_label_dig] = -1
-        #count_good = sum([1 for x in best_ind if x >= 0])
         count_good = np.sum(best_ind >= 0)
         
-        # adjusted statement below for numpy parents data type
-        #parents = [tuple(self.pick_parents()) for i in range(self.pop_size - count_good)]
         parents = self.pick_parents(self.pop_size - count_good).T
         crossover = np.random.randint(0,self.num_pixels - 1, size = (self.pop_size - count_good,))
         new_pop = [[np.concatenate([self.pop[parents[i][0]][:crossover[i], :], self.pop[parents[i][1]][crossover[i]:, :]])] for i in range(self.pop_size - count_good)]
@@ -654,13 +543,10 @@ class GA():
             with open(self.in_folder + (self.img_dump_file % self.cifar_idx), 'rb') as f_in:
                 self.pop = np.load(f_in)
                 self.pop_size = self.pop.shape[0]
-        #elif self.rand_mode == 'bright':
         except:
             self.pop = self.pop_gen_mut()
             with open(self.in_folder + 'pop_' + str(self.cifar_idx) + '.npy', 'wb') as f:
                 np.save(f, self.pop)
-        #print('population initialized')
-        
         self.compute_lin_fit_coeff()
         self.fitness()
         self.compute_c_o_prob()
@@ -716,8 +602,6 @@ class GA():
             self.show_image(self.target_img)
                 
             print('Best Fit Images')
-            #print('Best Fit Classification: ' + str(np.argmax(self.loaded_model.predict(np.array([self.max_fit_img])))))
-            #self.show_image(self.max_fit_img)
             for i in range(len(best_images)):
                 print('Image label: ' + str(best_labels[i]), '   Maximum fitness: ' + str(self.max_fit) + '\n', '   Num. pixels diff.: %d' % ((np.abs(self.target_img.reshape(self.num_pixels,self.num_rgb) - best_images[0]) > self.thres_pix_diff).sum(),))
                 self.show_image(best_images[i])
@@ -732,8 +616,6 @@ class GA():
         ''' Create output '''
         finish_time = datetime.datetime.now()
         elapse_time = finish_time - start_time
-        #f_out = open(self.out_folder + self.log_name + '.csv','a')
-        #log_name_stripped = self.re_strip.sub('',self.log_name)
         output = []
         if self.out_only_best:
             img_str = ' '.join([str(i) for i in best_images[0].flatten()])
@@ -749,8 +631,6 @@ class GA():
         
 
     def check_target_class(self, img):
-        # assumes img.shape = (32,32,3)
-        #return np.argmax(self.loaded_model.predict(np.array([img]), batch_size=1000)) == self.target_label_dig
         try:
             assert isinstance(img, np.ndarray) and img.shape[0] == 1
         except:
@@ -771,7 +651,6 @@ class GA():
 def randDig():
     blkProb = 0.7
     whtProb = 0.25/(1 - blkProb)
-    #img =  [[ 0.0 if random.random() <= blkProb else 1.0 if random.random() <= whtProb else random.randint(1,255)/255 for j in range(28)] for i in range(28)]
     img =  [0.0 if random.random() <= blkProb else 1.0 if random.random() <= whtProb else random.randint(1,255)/255 for i in range(784)]
     return np.array(img)
 
