@@ -66,7 +66,7 @@ To execute from the command line, open a command  prompt that recognizes the pat
 A similar command can be used with `ga_mnist_adv_worker_rank-sel_cnn.py` although the neural network files, `CNN.json` and `CNN.h5`, would be referenced in the input arguments.
 
 The following files are output in the indicated folders where `i` is the MNIST index:
-- In a folder with a name set to the scenario name:
+- In <code>../output/<em>scen_name</em></code> where <code><em>scen_name</em></code> is the scenario name:
   - <code><em>i</em>_elite.csv</code> -  Records the fitness of the elite phenotypes that are carried over into the next generation.  Each row contains, in this order, the MNIST ID, the generation number, the classification of the image by the neural network, and the phenotype's fitness.
   - <code><em>i</em>_elite_parents.csv</code>: a file where each row has these elements: MNIST ID, generation number, number of offspring whose classifications match the ground truth label of the reference image, which necessitates that one of the offspring's parents be retained in the population for the next generation.
   - <code><em>i</em>_img.npy</code>: a `numpy` file with the adversarial example with the greatest fitness.
