@@ -70,6 +70,9 @@ Output from this code includes the following files in the designated output fold
   - <code><em>i</em>_elite_parents.csv</code>: a file where each row has these elements: MNIST ID, generation number, number of offspring whose classifications match the ground truth label of the reference image, which necessitates that one of the offspring's parents be retained in the population for the next generation.
   - <code><em>i</em>_img.npy</code>: a `numpy` file with the adversarial example with the greatest fitness.
   - <code><em>i</em>_pop_stat</code>: a file where each row has these elements: MNIST ID, generation number, maximum population fitness, minimum fitness, mean fitness, median fitness
+- In this root folder, these fiels are placed:
+  - For example, `FF_L2_rank-nonlinear_rand_5.csv`, where `FF_L2_rank-nonlinear_rand` represents the parameters and the trailing integer is indexed each time the controller program is run for a particular scenario.  The output includes the scneario name, MNIST ID, the reference image classification, the adversarial example classification, fitness if `mad-linear` fitness function is used, fitness of best adversarial example, elapsed execution time, and a string representing the adversarial example.
+  - Other files indicating execution time
 
 
 
@@ -77,7 +80,7 @@ Output from this code includes the following files in the designated output fold
 
 The controller program filename is `ga_control_rank_sel.py` and it executes multiple worker files in parallel.  Its input arguments are:
 - `start_id`: an integer from 0 to 59,999 representing the first MNIST iamge for which an adversarial example is generated
-- `end_id`: an integer from 0 to 59,999 representing the last MNIST iamge for which an adversarial example is generated
+- `end_id`: an integer from 0 to 59,999 representing the last MNIST image for which an adversarial example is generated
 - `fit_type`: one of `L1, L1-lin, L2, L2-lin, Linf, Linf-lin`
 - `select_type`: one of `proportionate, rank-linear, rank-nonlinear`
 - `rand_type`: either `rand` or `mad`
