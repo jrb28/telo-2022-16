@@ -72,8 +72,7 @@ The following files are output in the indicated folders where `i` is the MNIST i
   - <code><em>i</em>_img.npy</code>: a `numpy` file with the adversarial example with the greatest fitness.
   - <code><em>i</em>_pop_stat</code>: a file where each row has these elements: MNIST ID, generation number, maximum population fitness, minimum fitness, mean fitness, median fitness
 - In <code>../output/</code>:
-  - 
-  `FF_L2_rank-nonlinear_rand_5.csv`, for example, where `FF_L2_rank-nonlinear_rand` represents the parameters and the trailing integer is indexed each time the controller program is run for a particular scenario.  The output includes the scenario name, MNIST ID, the reference image classification, the adversarial example classification, fitness if `mad-linear` fitness function is used, fitness of best adversarial example, elapsed execution time, and a string representing the adversarial example.
+  - `FF_L2_rank-nonlinear_rand_5.csv`, for example, where `FF_L2_rank-nonlinear_rand` represents the parameters and the trailing integer is indexed each time the controller program is run for a particular scenario.  The output includes the scenario name, MNIST ID, the reference image classification, the adversarial example classification, fitness if `mad-linear` fitness function is used, fitness of best adversarial example, elapsed execution time, and a string representing the adversarial example.
   - Other files indicating execution time
 
 
