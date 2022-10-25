@@ -13,21 +13,17 @@ See LICENSE.md in the repository root folder for the terms of this license
 
 import subprocess
 import multiprocessing
-#import pathlib
 import time
 import argparse
 import glob
 import re
 import os
-#import time
 
 
 def run_this(q, mnist_id, fit_type, select_type, rand_type, fit_nonlin_rank, model_file, weights_file, 
              out_folder, in_folder, filepath_code, pop_size, prob_mut_genome, prob_mut_pixel, num_gen, 
              scen_name):
-    #path = pathlib.Path(__file__).parent.absolute()
     result = subprocess.run(['python', filepath_code , str(mnist_id), fit_type, select_type, rand_type, str(fit_nonlin_rank), model_file, weights_file, out_folder, in_folder, str(pop_size), str(prob_mut_genome), str(prob_mut_pixel), str(num_gen), scen_name], stdout=subprocess.PIPE)
-    #result = subprocess.run(['python', 'C:/Users/jrbrad/Desktop/adversarial_eg/ga/cl/new/ga_mnist_adv_worker.py', str(mnist_id), model_file, weights_file, out_folder], stdout=subprocess.PIPE)
     result = result.stdout.decode('utf-8')
     q.put(result)
     return result
@@ -47,8 +43,6 @@ def str_to_bool(s):
     else:
          raise ValueError 
 
-#def parse(x):
-#    x = x.rstrip(']').lstrip('[']).split(',')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Generate adversarial examples for neural network')
@@ -96,23 +90,9 @@ if __name__ == '__main__':
         indices = list(range(args.start_id, args.end_id+1))
     num_progs = len(indices)
     
-    #num_progs = args.end_id - args.start_id + 1   # commented out for missing index work
-    #model_file = args.file_model    #'ff_mnist.json'
-    #weights_file = args.file_weights  #'ff_mnist.h5'
     filename_stub = re.sub('.json','',args.file_model) + '_' + args.fit_type + '_' + args.select_type  + '_' + args.rand_type  + '_' 
         
-    
-    ''' Find unique file name for output and establish it '''
-    '''
-    try:
-        subfold_out = os.environ['COMPUTERNAME'] + '/'
-    except:
-        subfold_out = 'hpc/' '''
-    #subfold_out = 'rank_nonlinear/'
-        
     nums = re.compile('[0-9]+\.csv')
-    #out_folder = args.folder_out #'../output/' + subfold_out  #args.folder + 'output/' + subfold_out
-    #out_folder = 'C:/Users/jrbrad/Desktop/adversarial_eg/ga/cl/output\\'
     files = glob.glob(args.folder_out + filename_stub + '*.csv')
     if len(files) == 0:
       ext = str(0)
@@ -132,13 +112,6 @@ if __name__ == '__main__':
     f.write('')
     f.close()
     
-    '''
-    for i in indices:
-        m = multiprocessing.Manager()
-        q = m.Queue()
-        result = run_this(q, i, args.fit_type, args.select_type, args.rand_type,  args.factor_rank_nonlinear, args.file_model, args.file_weights, args.folder_out, args.folder_in, args.filepath_code, args.pop_size, args.prob_mut_genome, prob_mut_pixel, args.num_gen)
-        print(result) '''
-
     if mp_mode:
         try:
             num_proc = int(args.num_proc) #18 #4
@@ -150,34 +123,12 @@ if __name__ == '__main__':
         
             m = multiprocessing.Manager()
             q = m.Queue()
-            #filepath =  #'/code/ga_mnist_adv_worker_rank-sel_new.py'   # '/code/ga_mnist_adv_worker.py'
             
             TASKS = [(q, i, args.fit_type, args.select_type, args.rand_type,  args.factor_rank_nonlinear, args.file_model, args.file_weights, args.folder_out, args.folder_in, args.filepath_code, args.pop_size, args.prob_mut_genome, prob_mut_pixel, args.num_gen, scen_name) for i in indices]  #range(args.start_id, args.end_id + 1)
             
                 
-            #results1 = pool.starmap(run_this, TASKS)
-            # Trial with async
             results1 = pool.starmap_async(run_this, TASKS)
             print('DONE')
-            #results = [pool.apply_async(calculate, t) for t in TASKS]
-            #imap_it = pool.imap(calculatestar, TASKS)
-            #imap_unordered_it = pool.imap_unordered(calculatestar, TASKS)
-        
-            '''
-            print('starmap() results:')
-            for r in results1:
-                try:
-                    print('\t try ', r.get())
-                except:
-                    print('\t except ', r)
-            print() '''
-            
-            '''
-            for i in range(1, num_progs):
-                print("result", i, ":", q.get())'''
-            
-            # Trial with async
-            #print(results1)
             
             num_retrieve = 0
             while num_retrieve < num_progs:
@@ -209,7 +160,6 @@ if __name__ == '__main__':
         print(results1)
         
         '''Write results to file '''
-        #output_file = out_folder + filename_stub + ext + '.csv'  # filename established previously
         with open(output_file,'w') as f:
             f.write(''.join(results1))
         
