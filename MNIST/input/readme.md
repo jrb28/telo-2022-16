@@ -2,8 +2,8 @@
 
 This folder contains input data for generating MNIST adversarial examples.
 
-| File |: Description :|
-|:--------------:|:------------------------------------------------------------------------------------------- |
+| File | Description |
+|:--------------:|:-------------------------------------------------------------------------------------------:|
 | <code>CNN.json</code> | The model file for the CNN neural network. |
 | <code>CNN.h5</code> | The weights file for the CNN neural network. |
 | <code>FF.json</code> | The model file for the FF neural network. |
