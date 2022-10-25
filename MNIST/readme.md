@@ -48,8 +48,8 @@ The input arguments for these command line programs are as follows, in this orde
 - `factor_rank_nonlinear`: a floating-point value greater than 0.0 but less than 1.0.  This is a required argument even if rank-nonlinear selection is not being used.  Results reported in the article used 0.9.
 - `file_model`: either `FF.json` or `CNN.json` (Note: the corresponding weights file and code file must be used .)
 - `file_weights`: either `FF.h5` or `CNN.h5` (Note: the corresponding model file and code file must be used.)
-- `out_folder`: ../output/
-- `in_folder`: ../input/
+- `out_folder`: ../output/ (this correspnds with repo folder structure, but this may be changed if desired)
+- `in_folder`: ../input/ (do not deviate from this argument to suit repo folder structure)
 - `pop_size`: an integer representing the population size.  The article reports results using 1000.
 - `prob_mut_genome`: probability that an image is mutated (0.7 in our experiments)
 - `prob_mut_pixel`: the probability of any pixel being mutated, if an image is mutated (0.00255 in our experiments)
