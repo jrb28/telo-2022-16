@@ -64,7 +64,7 @@ To execute from the command line, open a command  prompt that recognizes the pat
 ><pre><code>python <em>file_path_to_code</em>/ga_mnist_adv_worker_rank-sel.py 0 L2 rank-linear rand 0.9 FF.json FF.h5 ../output/ ../input/ 1000 0.7 0.00255  2000 0_L2_rl_rand_FF_1000_2000<\code></pre>
 A similar command can be used with `ga_mnist_adv_worker_rank-sel_cnn.py` although the neural network files, `CNN.json` and `CNN.h5`, would be referenced in the input arguments.
 
-Output from this code includes the following files in the designated output folder where _i_ is the `mnist_id`:
+Output from this code includes the following files in the designated output folder where _i_ is the MNIST index within the list generated from `../input/randMNIST.json`:
 - In a folder with a name set to the scenario name:
   - <code><em>i</em>_elite.csv</code> -  Records the fitness of the elite phenotypes that are carried over into the next generation.  Each row contains, in this order, the MNIST ID, the generation number, the classification of the image by the neural network, and the phenotype's fitness.
   - <code><em>i</em>_elite_parents.csv</code>: a file where each row has these elements: MNIST ID, generation number, number of offspring whose classifications match the ground truth label of the reference image, which necessitates that one of the offspring's parents be retained in the population for the next generation.
