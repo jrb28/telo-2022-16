@@ -87,6 +87,11 @@ Output from this code includes the following items:
 - In folder `output`:
   - `L2_rank-linear_bright_0.9__0_1.csv`, for example, where `L2_rank-linear_bright_0.9__` specifies the genetic algorithm parameters and, here, `0_1` indicates the starting and ending CIFAR-10 indices.
   - `0.csv' where, here, `0` stands for the `batch_id` specified in the input arguments. This files contains these output fields:
-    - scenario name
-  - 
+    - Scenario name
+    - CIFAR-10 ID
+    - Reference CIFAR-10 image classification
+    - Classification of best adversarial example
+    - Execution time to initialize population
+    - Total Elapsed time
+    - A string representing the adversarial example
 
