@@ -35,21 +35,20 @@ Adversarial examples can be generated in two modes:
 The filename for the worker program is `ga_cifar_worker.py`, which is located in the `code` folder.  It can be run from the command line or by specifying command line arguments in an IDE, for example, in Anaconda Spyder by choosing ``Run>Configuration per file`` and then specifying input arguments in the ``Command line options`` dialog field.
 
 The input arguments for these command line programs are as follows, in this order:
-- `cifar_id`: an integer from 0 to 59,999
+- `cifar_id`: an integer from 0 to 49,999
 - `model_file`: `model2.h5`
 - `out_folder`: ../output/ (Output may be directed to another filepath if desired)
 - 'in_folder`: ../input/  (do not change this specification)
-- `fit_type`: one of `L1, L1-lin, L2, L2-lin, Linf, Linf-lin`
-- `select_type`: one of `proportionate`, `rank-linear`, or `rank-nonlinear`
+- `fit_type`: either `L1`, `L1-lin`, `L2`, `L2-lin`, `Linf`, or `Linf-lin`
+- `select_type`: either `proportionate`, `rank-linear`, or `rank-nonlinear`
 - `rand_type`: `bright` for brightness mutation
 - `factor_rank_nonlinear`: a floating-point value greater than 0.0 but less than 1.0.  This is a required argument even if rank-nonlinear selection is not being used.
-- `gpu_mode`: either `FF.json` or `CNN.json`
+- `gpu_mode`: computation is done on a GPU is `gpu_mode = True`, and on the CPU if `gpu_mode = False`
 
 Notes on input arguments:
-- There are fewer input arguments for the CIFAR-10 code compared with the MNIST code because the parameters that were optimized during the initial test runs and that were invariant in the experiments were hard-coded indto the program file.
 - If `gpu_mode` is `False`, then `tensorflow 2.0` will automatically use multiprocessing on however many CPU cores are available.
 
-The article reports that the population was initialized with batches of candidate adversarial examples that were generated in batch sizes of 50,000.  While this was the case for the adversarial examples reported on in the article, the code in this repository usese batch sizes of 5,000 to reduce memory consumption.
+The article reports that the population was initialized with batches of candidate adversarial examples that were generated in batch sizes of 50,000.  While this was the case for the adversarial examples reported on in the article, the code in this repository uses batch sizes of 5,000 to reduce memory consumption.
 
 To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environemnt variables are set properly to find the python executable) and execute this command (with some example input arguments):
 
@@ -57,9 +56,7 @@ To execute from the command line, open a command  prompt that recognizes the pat
 
 Output from this code includes the following items:
 - In folder `output/images`:
-  - <code><em>scen_i</em>.npy</code>: a `numpy` file containing the adversrial example for scenario name as specified in the input arguments for CIFAR-10 image `i`.
-
-
+  - <code><em>scen_i</em>.npy</code>: a `numpy` file containing the adversrial example for scenario name as specified in the input arguments for CIFAR-10 image index `i`.
 
 ### Using the Controller Program
 
