@@ -7,7 +7,7 @@ This folder contains code for generating adversarial examples for the CIFAR-10 d
 - `code`: code for generating adversarial examples
 - `input`: input files required to run the code
 - `output`: folder for receiving output
-- `adv_egs`: a static folder that contains the adversarial examples that were reported in in the article.  A `numpy` file is included in this folder for every parameter set that was evaluated and the filename includes shorthand for the parameters separated by underscores. 
+- `adv_egs`: a static folder that contains the adversarial examples that were reported in in the article.  A `numpy` file is included in this folder for every parameter set that was evaluated with 500 adversarial examples for the MNIST IDs in `../input/randMNIST.json`.  The filename indicates the genetic algorithm parameters joined by underscores. 
 
 ## Computing Environment
 
