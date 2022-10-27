@@ -1,6 +1,3 @@
 # CIFAR-10 Output Folder
 
-The adversarial examples and other files are output into this folder.
-
-- Adversarial examples are put into the `images/` folder.
-- Other output files reporting execution time and other data are put into this root folder.
+See the [CIFAR](https://github.com/telo-author/telo-2022-16/tree/main/CIFAR) root folder for descriptions of output files, which are placed in this folder.
