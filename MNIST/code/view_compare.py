@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow.keras.datasets import  mnist
 
-index = 22
+index = 24
 folder = 'FF_1000_2000_70_2_L2_rank-nonlinear_rand'
 
 (train_images, train_labels), (test_images, test_labels) = mnist.load_data()

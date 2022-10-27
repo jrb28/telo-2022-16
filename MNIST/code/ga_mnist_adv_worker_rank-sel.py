@@ -208,8 +208,7 @@ class GA():
     def fit_ssd_lin(self):
         return self.L2_max - np.sum((self.pop - self.target_img)**2.0, axis = 1)  #1/np.sum(np.power(np.subtract(self.pop, self.target_img), 2.0), axis = 1)
     
-    def __init__(self, pop_size, num_gen, prob_mut_genome, prob_mut_pixel, 
-                 prob_wht, prob_blk, input_folder, model_filename, weights_filename, 
+    def __init__(self, pop_size, num_gen, prob_mut_genome, prob_mut_pixel, input_folder, model_filename, weights_filename, 
                  output_folder, max_img, fit_type, select_type, min_mad, rand_mode, factor_rank_nonlinear, 
                  scen_name):
         
@@ -249,8 +248,6 @@ class GA():
         ''' Set random population parameters'''
         self.prob_mut_genome = prob_mut_genome
         self.prob_mut_pixel = prob_mut_pixel
-        self.prob_wht = prob_wht
-        self.prob_blk = prob_blk
         
     
     def rand_mnist_w_constraint(self):
@@ -534,8 +531,6 @@ prob_mut_genome = args.prob_mut_genome  #0.7    # probability of phenotype mutat
 prob_mut_pixel = args.prob_mut_pixel  #2.0 / genome_size  # probability of pixel mutation
 num_gen = args.num_gen #2000     # number of generations
 max_fit = 0        # maximum fitness
-prob_wht = 0.25
-prob_blk = 0.7
 min_mad = 0.1    # Values tried: 0.001, 0.05
 prints_img = False
     
@@ -544,7 +539,9 @@ if not os.path.isdir(args.out_folder + args.scen_name):
     os.mkdir(args.out_folder + args.scen_name)
 
 ''' Instantiate GA object '''
-ga = GA(pop_size, num_gen, prob_mut_genome, prob_mut_pixel, prob_wht, prob_blk, args.in_folder, args.file_model, args.file_weights, args.out_folder, prints_img, args.fit_type, args.select_type, min_mad, args.rand_type, args.factor_rank_nonlinear, args.scen_name)
+ga = GA(pop_size, num_gen, prob_mut_genome, prob_mut_pixel, args.in_folder, args.file_model, args.file_weights, 
+        args.out_folder, prints_img, args.fit_type, args.select_type, min_mad, args.rand_type, 
+        args.factor_rank_nonlinear, args.scen_name)
 ga.new(args.mnist_id)
 result = ga.evolve()
 '''
