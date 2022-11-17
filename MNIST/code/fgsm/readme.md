@@ -2,8 +2,12 @@
 
 | File | Description |
 |:-------------------------:|:------------------------------------------------------------------------------------- |
-| <code>fgsm_mgr.py </code> | Controller program to execute <code>fgsm_wkr_simple.py</code> multiple times for a sequence of MNIST IDs from the file `../../input/randMNIST.json`. |
-| <code>fgsm_wkr_simple.py</code> | Worker program to generate one adversarial example using the FF neural network |
-| <code>gather_numpy_files.py</code> | A program to accumulate individual text files for each adversarial image and concatenate them into a sinlge <code>numpy</code> file |
+| <code>fgsm_mgr.py</code> | This is a command-line program that executes <code>fgsm_wkr_simple.py</code> multiple times to generate a sequence of FGSM adversarial examples for the MNIST IDs included the file <code>../../input/randMNIST.json<\code>. |
+| <code>fgsm_wkr_simple.py</code> | A command-line worker program that generates one adversarial example for a specified MNIST ID. |
+| <code>gather_numpy_files.py</code> | A program to accumulate individual text files for each adversarial image and concatenate them into a single <code>numpy</code> file. |
 
 An <code>output</code> folder has been provided to receive the adversarial example files.
+
+The program <code>fgsm_mgr.py</code> can be executed from the command line or by specifying command line arguments in your IDE.  Executing this program from the command line with the feedforward (FF) neural network, for example, is done with this command:
+
+<code>python fgsm_mgr.py ../../input/ output/ randMNIST.json FF.json FF.h5 fgsm_wkr_simple.py</code>
