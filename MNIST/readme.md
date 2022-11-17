@@ -3,10 +3,8 @@ This folder contains the code for the generation of adversarial examples for the
 
 ## Subfolders in this Repository
 
-- `code`: code for generating adversarial examples
+- `code`: code for generating adversarial examples with the genetic algorithm and the Fast Gradient Sign Method (FGSM)
 - `input`: input files required to run the code
-- `output`: folder for receiving output
-- `adv_egs`: a static folder that contains the adversarial examples that were reported in in the article.  A `numpy` file is included in this folder for every parameter set that was evaluated and the filename is shorthand for the genetic algorithm parameters separated by underscores.
 
 ## Computing Environment
 
