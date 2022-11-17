@@ -13,7 +13,7 @@ An <code>output</code> folder has been provided to receive the adversarial examp
 
 Executing <code>ga_control_rank_sel.py</code> to cause adversarial examples to be generated for the 500 randomly selected MNIST IDs is done, for example, from the command line using this command
 
-><code>python ga_control_rank_sel.py </code>
+><code>python ga_control_rank_sel.py xxxxx</code>
 
 Please see the code for a description of the arguments or, alternately execute this command from teh command line:
 
