@@ -42,7 +42,7 @@ The input arguments for these command line programs are as follows, in this orde
 - `file_model`: either `FF.json` or `CNN.json` (Note: the corresponding weights file and code file must be used .)
 - `file_weights`: either `FF.h5` or `CNN.h5` (Note: the corresponding model file and code file must be used.)
 - `out_folder`: ../output/ (this correspnds with repo folder structure, but this may be changed if desired)
-- `in_folder`: ../input/ (do not deviate from this argument to suit repo folder structure)
+- `in_folder`: ../../input/ (do not deviate from this argument to suit repo folder structure)
 - `pop_size`: an integer representing the population size.  The article reports results using 1000.
 - `prob_mut_genome`: probability that an image is mutated (0.7 in our experiments)
 - `prob_mut_pixel`: the probability of any pixel being mutated, if an image is mutated (0.00255 in our experiments)
@@ -55,7 +55,7 @@ Notes on these parameters:
 - The `scen_name` argument is a label to be associated with the particular parameters being used.  All results are put in the folder at this path `out_folder/scen_name`.
 
 To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environment variables are set properly to find the python executable) and execute this command (with some example input arguments):
-><pre><code>python <em>file_path_to_code</em>/ga_mnist_adv_worker_rank-sel.py 0 L2 rank-linear rand 0.9 FF.json FF.h5 ../output/ ../input/ 1000 0.7 0.00255  2000 0_L2_rl_rand_FF_1000_2000<\code></pre>
+><pre><code>python <em>file_path_to_code</em>/ga_mnist_adv_worker_rank-sel.py 0 L2 rank-linear rand 0.9 FF.json FF.h5 ../output/ ../../input/ 1000 0.7 0.00255  2000 0_L2_rl_rand_FF_1000_2000<\code></pre>
 A similar command can be used with `ga_mnist_adv_worker_rank-sel_cnn.py` although the neural network files, `CNN.json` and `CNN.h5`, would be referenced in the input arguments.
 
 The following files are output in the indicated folders where `i` is the MNIST index:
