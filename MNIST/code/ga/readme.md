@@ -7,4 +7,6 @@
 | <code>ga_mnist_adv_worker_rank-sel_cnn.py</code> | Worker program to generate one adversarial example using the CNN neural network |
 | <code>view_compare</code> | Code to view an adversarial example and its MNIST reference image |
 
+The <code>adv_egs</code> folder contains the adversarial examples analysed in the paper, which were generated with the genetic algorithm.
+
 An <code>output</code> folder has been provided to receive the adversarial example files.
