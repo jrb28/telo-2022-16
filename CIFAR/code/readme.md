@@ -35,12 +35,13 @@ The input arguments for <code>ga_cifar_control.py</code> are:
 - <code>rand_type</code>: Mutation operator;  only <code>bright</code> is used for HSV brightness mutation
 - <code>factor_rank_nonlinear</code>: Nonlinear rank selection factor (must be present even if alternative selection method is used)
 - <code>num_proc</code>: Number of processor cores to be used in parallel execution
-- <code>model_file</code>: The neural network model file (<code>model2.h5</code>)
+- <code>file_model</code>: The neural network model file (<code>model2.h5</code>)
 - <code>folder</code>: Input folder <code>../input/</code>
 - <code>folder_out</code>: <code>../output/</code>
 - <code>gpu_mode</code>: Use GPU if <code>True</code> and not otherwise
+- <code>mp_mode</code>: Use multi-processing if <code>True</code> and not otherwise,
 - <code>batch_id</code>: An ID associated with the execution of this sequence of CIFAR-10 adversarial examples
 
 A sample command line statement to execute the worker program is as follows:
-><code>python <em>path_to_file/</em>ga_cifar_control.py 0 19 L2 rank-linear bright 0.9 11 model2.h5 ../input/ ../output/ False x</code>
+><code>python <em>path_to_file/</em>ga_cifar_control.py 0 19 L2 rank-linear bright 0.9 11 model2.h5 ../input/ ../output/ True False x</code>
 
