@@ -6,3 +6,23 @@
 | <code>ga_cifar_worker.py</code> | Worker program to generate one CIFAR-10 adversarial example |
 | <code>view_compare_cifar.py</code> | View an adversarial example and its CIFAR-10 reference image.  |
 | <code>compare_ae_cifar_file.py</code> | A program to compare a CIFAR-10 reference image with its adversarial example provided in the <code>numpy</code> files representing the adversarial examples reported on in the article. |
+
+# Executing the Worker Program
+
+The input arguments for <code>ga_cifar_worker.py</code> are:
+- <code>cifar_id</code>: The CIFAR-10 ID for which an adversarial example is to be generated
+- <code>model_file</code>: The neural network model file (<code>model2.h5</code>)
+- <code>out_folder</code>: <code>../output/</code>
+- <code>folder</code>: Input folder <code>../input/</code>
+- <code>fit_type</code>: The fitness function; <code>L1, L2, Linf, L1-lin, L2-lin, Linf-lin</code>
+- <code>select_type</code>: Selection operator; <code>proportionate, rank-linear, rank-nonlinear</code>
+- <code>rand_type</code>: Mutation operator;  only <code>bright</code> is used for HSV brightness mutation
+- <code>factor_rank_nonlinear</code>: Nonlinear rank selection factor (must be present even if alternative selection method is used)
+- <code>gpu_mode</code>: Use GPU if <code>True</code> and not otherwise
+
+A sample command line statement to execute the worker program is as follows:
+><code>python <em>path_to_file/</em>ga_cifar_worker.py 0 model2.h5 ../output/ ../input/ L2 rank-linear bright 0.9 False</code>
+
+
+
+# Executing the Controller Program
