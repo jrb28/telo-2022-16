@@ -42,5 +42,5 @@ The input arguments for <code>ga_cifar_control.py</code> are:
 - <code>batch_id</code>: An ID associated with the execution of this sequence of CIFAR-10 adversarial examples
 
 A sample command line statement to execute the worker program is as follows:
-><code>python <em>path_to_file/</em>ga_cifar_control.py 0 19 L2 rank-linear bright 0.9 11 model2.h5 ../output/ ../input/ False x</code>
+><code>python <em>path_to_file/</em>ga_cifar_control.py 0 19 L2 rank-linear bright 0.9 11 model2.h5 ../input ../output// False x</code>
 
