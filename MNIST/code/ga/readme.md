@@ -96,7 +96,7 @@ Notes on these parameters:
 - The controller program creates the `scen_name` argument that is used by the worker program as a folder name for the output.  It is a combination of the GA parameters being used, joined with underscores.  
 
 To execute from the command line, open a command  prompt that recognizes the path to the python executable (either an Anaconda command prompt or a Windows command prompt if the environment variables are set properly to find the python executable) and execute this command (with some example input arguments):
-><pre><code>python <em>file_path_to_code</em>/ga_control_rank_sel.py 0 19 L2 rank-linear rand 0.9 10 FF.json FF.h5 ../../input/ ../../output/ <em>file_path_to_code</em>/ga_mnist_adv_worker_rank-sel.py 1000 1.0 2  2000</code></pre>
+><pre><code>python <em>file_path_to_code</em>/ga_control_rank_sel.py 0 19 L2 rank-linear rand True 0.9 10 FF.json FF.h5 ../../input/ ../../output/ <em>file_path_to_code</em>/ga_mnist_adv_worker_rank-sel.py 1000 1.0 2  2000</code></pre>
 
 The same output files are generated with the controller as would be generated with the worker program used to create a single adversarial example and, in addition, these files are created in the `../output/` folder:
 - <code>CNN_1000_25_70_2_L2_rank-linear_rand_timing.txt</code>, for example, where in this case `CNN_1000_25_70_2_L2_rank-linear_rand` are the genetic algorithm parameters  joined by underscores.  This file documents execution time.
