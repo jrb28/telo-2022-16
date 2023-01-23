@@ -1,0 +1,12 @@
+cff-version: 1.1.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Bradley
+    given-names: James
+    orcid: https://orcid.org/0000-0001-8766-6830
+  - family-names: Blossom 
+    given-names: Paul
+    ordid: https://orcid.org/0000-0001-8787-2263
+title: jrb28/telo-2022-16: Update: Windows systems only
+version: v1.0.1
+date-released: 2023-01-23
