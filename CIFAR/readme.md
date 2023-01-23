@@ -11,7 +11,7 @@ This folder contains code for generating adversarial examples for the CIFAR-10 d
 
 ## Computing Environment
 
-The directions below for setting up an appropriate computing environment are for __Windows operating systems__ only.   environment files for Linux operating systems will be posted soon.  
+The directions below for setting up an appropriate computing environment are for __Windows operating systems__ only.   Environment files for Linux operating systems will be posted soon.  
 
 - The Anaconda distribution can be downloaded from this site: [https://www.anaconda.com/products/distribution](https://www.anaconda.com/products/distribution)
 - An environment file is located in this folder that can be used to create an Anaconda environment for this code.  
