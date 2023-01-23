@@ -11,7 +11,7 @@ This folder contains code for generating adversarial examples for the CIFAR-10 d
 
 ## Computing Environment
 
-The production runs of this code were run on a high-performance computing cluster, although the code in this repository is configured to run on a windows desktop environment.  Creating an equivalent computing environment on a Mac or Linux operating system may permit this code to be run, although we have not tried and and do not guarantee it.  Note that Macs have recently not been equipped with NVIDIA GPUs so that using a GPU to execute this code on a Mac is not feasible.  It is possible to run the code on a CPU although it is slower.  The code was run with Python 3.8.8 within an Anaconda environment that contained Tensorflow 2.7.  
+The directions below for setting up an appropriate computing environment are for __Windows operating systems__ only.   environment files for Linux operating systems will be posted soon.  
 
 - The Anaconda distribution can be downloaded from this site: [https://www.anaconda.com/products/distribution](https://www.anaconda.com/products/distribution)
 - An environment file is located in this folder that can be used to create an Anaconda environment for this code.  
